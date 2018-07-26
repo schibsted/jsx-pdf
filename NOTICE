@@ -1,0 +1,64 @@
+The library dependends on the following projects:
+
+# DEPENDENCIES
+
+pdfmake
+    LICENCE: MIT,
+             https://github.com/bpampuch/pdfmake/blob/master/LICENSE
+
+OpenSans:
+    LICENCE: Apache 2.0,
+             https://github.com/schibsted/jsx-pdf/fonts/OpenSans/LICENCE.txt
+
+lodash:
+    LICENCE: MIT,
+             https://github.com/lodash/lodash/blob/master/LICENSE
+
+# DEVELOPMENT DEPENDENCIES
+
+babel: babel-cli, babel-core, babel-plugin-transform-object-rest-spread, babel-plugin-transform-react-jsx, babel-preset-env
+    LICENCE: MIT,
+             https://github.com/babel/babel/blob/master/LICENSE
+
+jest:
+    LICENCE: MIT,
+             https://github.com/facebook/jest/blob/master/LICENSE
+
+jest-watch-typeahead:
+    LICENCE: MIT,
+             https://github.com/jest-community/jest-watch-typeahead/blob/master/LICENSE
+
+eslint:
+    LICENCE: MIT,
+             https://github.com/eslint/eslint/blob/master/LICENSE
+
+eslint-config-schibsted: eslint-config-schibsted, eslint-config-schibsted-modules, eslint-config-schibsted-node, eslint-config-schibsted-react
+    LICENCE: MIT
+
+eslint-plugin-import:
+    LICENCE: MIT,
+             https://github.com/benmosher/eslint-plugin-import/blob/master/LICENSE
+
+eslint-plugin-jest:
+    LICENCE: MIT,
+             https://github.com/jest-community/eslint-plugin-jest/blob/master/LICENSE
+
+eslint-plugin-jsx-a11y:
+    LICENCE: MIT,
+             https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/LICENSE.md
+
+eslint-plugin-prettier:
+    LICENCE: MIT,
+             https://github.com/prettier/eslint-plugin-prettier/blob/master/LICENSE.md
+
+eslint-plugin-react:
+    LICENCE: MIT,
+             https://github.com/yannickcr/eslint-plugin-react/blob/master/LICENSE
+
+eslint-plugin-unicorn:
+    LICENCE: MIT,
+             https://github.com/sindresorhus/eslint-plugin-unicorn/blob/master/license
+
+prettier:
+    LICENCE: MIT,
+             https://github.com/prettier/prettier/blob/master/LICENSE

@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "schibsted",
+    "schibsted/prettier-strict",
+    "schibsted-modules",
+    "schibsted-react",
+    "schibsted-node"
+  ],
+  "root": true,
+  "rules": {
+    "react/jsx-filename-extension": "off"
+  },
+  "settings": {
+    "react": { "pragma": "createElement" }
+  },
+  "overrides": [
+    {
+      "files": "**/*.test.js",
+      "plugins": ["jest"],
+      "env": {
+        "jest/globals": true
+      }
+    }
+  ]
+}

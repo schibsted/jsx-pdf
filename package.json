@@ -1,0 +1,54 @@
+{
+  "name": "jsx-pdf",
+  "version": "0.0.1",
+  "main": "dst/index.js",
+  "files": [
+    "/dst",
+    "/fonts"
+  ],
+  "author": "Yaroslav Borcheninov <yaroslav-borcheninov@users.noreply.github.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/schibsted/jsx-pdf.git"
+  },
+  "scripts": {
+    "dev": "yarn build -- --watch src",
+    "build": "babel src --out-dir dst --ignore '**/*.test.js'",
+    "lint": "eslint \"{src,example}\"",
+    "test": "yarn lint && jest",
+    "prepublish": "yarn test && yarn build",
+    "prettier": "prettier --write **/*.{js,json,md,babelrc,eslintrc,prettierrc}",
+    "demo": "node --require babel-register example/index.js"
+  },
+  "dependencies": {
+    "lodash": "^4.17.10",
+    "pdfmake": "^0.1.36"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "eslint": "^4.13.1",
+    "eslint-config-schibsted": "^6.0.0",
+    "eslint-config-schibsted-modules": "^6.0.0",
+    "eslint-config-schibsted-node": "^6.0.0",
+    "eslint-config-schibsted-react": "^6.0.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jest": "^21.17.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-prettier": "^2.4.0",
+    "eslint-plugin-react": "^7.9.1",
+    "eslint-plugin-unicorn": "^3.0.1",
+    "jest": "^23.1.0",
+    "jest-watch-typeahead": "^0.1.0",
+    "koa": "^2.5.2",
+    "prettier": "^1.9.2"
+  },
+  "peerDependencies": {
+    "babel-plugin-transform-react-jsx": "^6.0.0"
+  }
+}
