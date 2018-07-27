@@ -16,7 +16,9 @@
     "dev": "yarn build -- --watch src",
     "build": "babel src --out-dir dst --ignore '**/*.test.js'",
     "lint": "eslint \"{src,example}\"",
-    "test": "yarn lint && jest --coverage --coverageReporters=text-lcov | coveralls",
+    "test": "yarn lint && yarn test:unit${TRAVIS:+:coveralls}",
+    "test:unit": "jest --coverage",
+    "test:unit:coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "prepublish": "yarn test && yarn build",
     "prettier": "prettier --write **/*.{js,json,md,babelrc,eslintrc,prettierrc}",
     "demo": "node --require babel-register example/index.js"
