@@ -1,6 +1,6 @@
 # jsx-pdf
 
-[![Build Status](https://travis-ci.org/schibsted/jsx-pdf.svg?branch=master)](https://travis-ci.org/schibsted/jsx-pdf)
+[![Build Status](https://travis-ci.org/schibsted/jsx-pdf.svg?branch=master)](https://travis-ci.org/schibsted/jsx-pdf) [![Coverage Status](https://coveralls.io/repos/github/schibsted/jsx-pdf/badge.svg?branch=master)](https://coveralls.io/github/schibsted/jsx-pdf?branch=master)
 
 This library allows you to generate PDFs using a react-like JSX syntax.
 
