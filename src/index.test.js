@@ -262,6 +262,25 @@ describe('#jsx-pdf', () => {
         },
       });
     });
+
+    it('should support nested text elements in the stack', () => {
+      expect(
+        toPDFMake(
+          <document>
+            <content>
+              <text>
+                <text>first</text>
+                <text>second</text>
+              </text>
+            </content>
+          </document>,
+        ),
+      ).toEqual({
+        content: {
+          stack: [{ text: [{ text: 'first' }, { text: 'second' }] }],
+        },
+      });
+    });
   });
 
   it('should ignore falsy values', () => {
