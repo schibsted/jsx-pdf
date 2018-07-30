@@ -431,7 +431,17 @@ describe('#jsx-pdf', () => {
       });
     });
 
-    it('should error if a top level element appears below the top level', () => {
+    ['title', 'author', 'subject', 'keywords'].forEach(field => {
+      it(`should set ${field} in info`, () => {
+        expect(toPDFMake(<document {...{ [field]: 'foo' }} />)).toEqual({
+          info: {
+            [field]: 'foo',
+          },
+        });
+      });
+    });
+
+    it('should error if a top-level element appears below the top level', () => {
       expect(() => {
         toPDFMake(
           <document>

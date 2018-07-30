@@ -178,7 +178,7 @@ export function toPDFMake(tag) {
 
   const info = pick(attributes, ['title', 'author', 'subject', 'keywords']);
 
-  if (info.length > 0) {
+  if (Object.keys(info).length > 0) {
     result.info = info;
   }
 
