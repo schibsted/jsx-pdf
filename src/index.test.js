@@ -419,6 +419,12 @@ describe('#jsx-pdf', () => {
   });
 
   describe('document', () => {
+    it('should set page size', () => {
+      expect(toPDFMake(<document size={5} />)).toEqual({
+        pageSize: 5,
+      });
+    });
+
     it('should set page margin', () => {
       expect(toPDFMake(<document margin={10} />)).toEqual({
         pageMargins: 10,
@@ -436,7 +442,22 @@ describe('#jsx-pdf', () => {
             </content>
           </document>,
         );
-      }).toThrow(Error, /immediate descendents/);
+      }).toThrow(/immediate descendents/);
+    });
+
+    it('should error if a non-top-level element appears at the top level', () => {
+      expect(() => {
+        toPDFMake(
+          <document>
+            <text>oops!</text>
+            <content>
+              <text>¯\_(ツ)_/¯</text>
+            </content>
+          </document>,
+        );
+      }).toThrow(
+        /the <document> element can only contain <header>, <content>, and <footer> elements/i,
+      );
     });
 
     it('should error if document is not the root element', () => {
@@ -446,7 +467,7 @@ describe('#jsx-pdf', () => {
             <text>foobar</text>
           </stack>,
         );
-      }).toThrow(Error, /root/);
+      }).toThrow(/root/);
     });
 
     it('should error if a document appears below the top level', () => {
@@ -458,7 +479,7 @@ describe('#jsx-pdf', () => {
             </content>
           </document>,
         );
-      }).toThrow(Error, /root/);
+      }).toThrow(/root/);
     });
 
     it('should not error if a top level element appears nested inside a function component', () => {
@@ -470,7 +491,7 @@ describe('#jsx-pdf', () => {
             <Nested />
           </document>,
         );
-      }).not.toThrow(Error);
+      }).not.toThrow();
     });
 
     it('should resolve functional top level elements', () => {
