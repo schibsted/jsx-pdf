@@ -12,6 +12,12 @@
     "type": "git",
     "url": "https://github.com/schibsted/jsx-pdf.git"
   },
+  "keywords": [
+    "pdf",
+    "jsx",
+    "pdf-generation",
+    "pdfmake"
+  ],
   "scripts": {
     "dev": "yarn build -- --watch src",
     "build": "babel src --out-dir dst --ignore '**/*.test.js'",
