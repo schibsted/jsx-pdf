@@ -1,6 +1,6 @@
 {
   "name": "jsx-pdf",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "dst/index.js",
   "files": [
     "/dst",
