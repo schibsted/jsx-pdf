@@ -1,17 +1,23 @@
 {
   "name": "jsx-pdf",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "dst/index.js",
   "files": [
     "/dst",
     "/fonts"
   ],
-  "author": "Yaroslav Borcheninov <yaroslav-borcheninov@users.noreply.github.com>",
+  "author": "Yaroslav Borcheninov <yaroslav.b.npm@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/schibsted/jsx-pdf.git"
   },
+  "keywords": [
+    "pdf",
+    "jsx",
+    "pdf-generation",
+    "pdfmake"
+  ],
   "scripts": {
     "dev": "yarn build -- --watch src",
     "build": "babel src --out-dir dst --ignore '**/*.test.js'",
