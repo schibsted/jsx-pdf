@@ -1,4 +1,4 @@
-(https://s15.postimg.cc/wcofwdugb/jsx_pdf.jpg)
+[![jsx_pdf.jpg](https://s15.postimg.cc/wcofwdugb/jsx_pdf.jpg)](https://postimg.cc/image/7jevvqbfr/)
 
 [![npm version](https://badge.fury.io/js/jsx-pdf.svg)](https://www.npmjs.com/jsx-pdf) [![Build Status](https://travis-ci.org/schibsted/jsx-pdf.svg?branch=master)](https://travis-ci.org/schibsted/jsx-pdf) [![Coverage Status](https://coveralls.io/repos/github/schibsted/jsx-pdf/badge.svg?branch=master)](https://coveralls.io/github/schibsted/jsx-pdf?branch=master)
 
