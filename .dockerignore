@@ -1,0 +1,17 @@
+coverage
+npm-debug.log
+.sass-cache
+.DS_Store
+.idea
+tmp
+.vscode
+
+node_modules/
+test/
+git-hooks/
+# Dotfiles or dot dirs
+.*
+!.babelrc
+Dockerfile
+
+dst/

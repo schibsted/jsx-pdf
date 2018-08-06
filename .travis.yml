@@ -1,6 +1,11 @@
-sudo: false
+sudo: required
 language: node_js
 cache: yarn
+services:
+  - docker
+
+script: yarn test && yarn docker-test
+
 deploy:
   provider: npm
   email:
