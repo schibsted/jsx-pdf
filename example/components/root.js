@@ -7,6 +7,6 @@ import MyDocument from './templates/mydocument';
 
 export default ({ config }) => (
   <ConfigProvider config={config}>
-    <MyDocument title="Example, inc" size="A4" />
+    <MyDocument title="Example, Inc" size="A4" />
   </ConfigProvider>
 );

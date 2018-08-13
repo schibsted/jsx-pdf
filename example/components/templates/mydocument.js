@@ -21,7 +21,7 @@ const footerStyle = {
 export default (props, context) => (
   <document
     title="Invoice"
-    author="Example Inc."
+    author="Example, Inc"
     size={props.size}
     margin={docMargins}
   >

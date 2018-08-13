@@ -22,11 +22,12 @@
   "scripts": {
     "dev": "yarn build -- --watch src",
     "build": "babel src --out-dir dst --ignore '**/*.test.js'",
-    "lint": "eslint \"{src,example}\"",
+    "lint": "eslint \"{src,example,test}\"",
     "test": "yarn lint && yarn test:unit${TRAVIS:+:coveralls}",
-    "test:unit": "jest --coverage",
-    "test:unit:coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls",
-    "prepublish": "yarn test && yarn build",
+    "test:unit": "jest --coverage -c jest.unit.config.js",
+    "test:unit:coveralls": "jest --coverage --coverageReporters=text-lcov -c jest.unit.config.js | coveralls",
+    "test:integration": "yarn demo && jest -c jest.integration.config.js",
+    "prepublish": "yarn test:unit && yarn build && yarn test:integration",
     "prettier": "prettier --write **/*.{js,json,md,babelrc,eslintrc,prettierrc}",
     "demo": "node --require babel-register example/index.js"
   },
@@ -55,6 +56,7 @@
     "eslint-plugin-unicorn": "^3.0.1",
     "jest": "^23.1.0",
     "jest-watch-typeahead": "^0.1.0",
+    "pdf2json": "^1.1.7",
     "prettier": "^1.9.2"
   },
   "peerDependencies": {
