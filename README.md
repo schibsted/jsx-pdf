@@ -39,7 +39,7 @@ The library is a thin layer built on top of [pdfmake](http://pdfmake.org/). It c
   ```
 - Code away! See the examples below.
 
-You can also run our example [Koa](https://koajs.org) app by running `yarn demo` and opening [http://localhost:3000](http://localhost:3000) in your browser. This should download a PDF in your browser. Check the console logs for additional information.
+You can also run our example script by running `yarn demo` and opening the generated pdf at `example/example.pdf`. Check the console logs for additional information.
 
 ## Components
 

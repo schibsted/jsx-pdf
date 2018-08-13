@@ -55,7 +55,6 @@
     "eslint-plugin-unicorn": "^3.0.1",
     "jest": "^23.1.0",
     "jest-watch-typeahead": "^0.1.0",
-    "koa": "^2.5.2",
     "prettier": "^1.9.2"
   },
   "peerDependencies": {
