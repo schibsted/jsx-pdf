@@ -6,3 +6,4 @@ dst
 node_modules
 npm-debug.log
 yarn-error.log
+example/example.pdf

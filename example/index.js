@@ -1,5 +1,5 @@
-// http app server
-import Koa from 'koa';
+import fs from 'fs';
+import path from 'path';
 
 // library
 import { createElement, createRenderer } from '../dst';
@@ -7,35 +7,28 @@ import { createElement, createRenderer } from '../dst';
 // PDF to render
 import PDF from './components/root';
 
-const app = new Koa();
-const render = createRenderer();
+// metrics
+const start = Date.now();
 
-const config = {
-  copyrightYear: 2018,
-};
-
-app.use(async ctx => {
-  // monitoring
-  const start = Date.now();
-
+try {
   console.log('Generating PDF...');
 
-  try {
-    ctx.set('Content-Type', 'application/pdf');
+  // here's where the PDF is created
+  const config = {
+    copyrightYear: 2018,
+  };
+  const render = createRenderer();
+  const stream = render(<PDF config={config} />);
 
-    ctx.body = render(<PDF config={config} />);
-
-    ctx.body.end();
-
-    console.log('PDF generated');
-  } catch (e) {
-    console.error('PDF generation failed');
-    console.error(e);
-  } finally {
-    // monitoring
-    const end = Date.now();
-    console.error(`Took ${(end - start).toFixed(0)}ms`);
-  }
-});
-
-app.listen(3000, () => console.log('Listening on http://localhost:3000'));
+  // write the stream to a file; this could also be streamed to an HTTP connection, stdout etc
+  stream.on('finish', () => console.log('PDF generated'));
+  stream.pipe(fs.createWriteStream(path.resolve(__dirname, 'example.pdf')));
+  stream.end();
+} catch (e) {
+  console.error('PDF generation failed');
+  console.error(e);
+} finally {
+  // metrics
+  const end = Date.now();
+  console.error(`Took ${(end - start).toFixed(0)}ms`);
+}
