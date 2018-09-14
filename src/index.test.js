@@ -3,181 +3,90 @@
  * Licensed under the MIT license. See LICENSE file in the project root for details.
  */
 
-import MockPDFMake from 'pdfmake';
-import { createElement, createRenderer, toPDFMake } from '.';
+import { createElement, renderPdf } from '.';
 
 jest.mock('pdfmake', () => jest.fn());
 
 describe('#jsx-pdf', () => {
-  describe('createRenderer', () => {
-    beforeEach(() => {
-      MockPDFMake.mockClear();
-    });
-
-    it('should return a function', () => {
-      expect(createRenderer()).toBeInstanceOf(Function);
-    });
-
-    it('should call pdfmake constructor', () => {
-      createRenderer();
-
-      expect(MockPDFMake).toHaveBeenCalled();
-    });
-
-    it('should pass open-sans to pdfmake constructor', () => {
-      createRenderer();
-
-      expect(MockPDFMake).toHaveBeenCalledWith({
-        OpenSans: {
-          normal: expect.stringContaining('OpenSans-Regular.ttf'),
-          bold: expect.stringContaining('OpenSans-Bold.ttf'),
-          italics: expect.stringContaining('OpenSans-Italic.ttf'),
-          bolditalics: expect.stringContaining('OpenSans-BoldItalic.ttf'),
-        },
-      });
-    });
-
-    it('should pass custom fonts to pdfmake constructor', () => {
-      createRenderer({
-        fontDescriptors: {
-          Font1: {
-            normal: 'fonts/Font1-Regular.ttf',
-            bold: 'fonts/Font1-Medium.ttf',
-            italics: 'fonts/Font1-Italic.ttf',
-            bolditalics: 'fonts/Font1-MediumItalic.ttf',
-          },
-          Font2: {
-            normal: 'fonts/Font2-Regular.ttf',
-            bold: 'fonts/Font2-Medium.ttf',
-            italics: 'fonts/Font2-Italic.ttf',
-            bolditalics: 'fonts/Font2-MediumItalic.ttf',
-          },
-        },
-      });
-
-      expect(MockPDFMake).toHaveBeenCalledWith({
-        OpenSans: {
-          normal: expect.stringContaining('OpenSans-Regular.ttf'),
-          bold: expect.stringContaining('OpenSans-Bold.ttf'),
-          italics: expect.stringContaining('OpenSans-Italic.ttf'),
-          bolditalics: expect.stringContaining('OpenSans-BoldItalic.ttf'),
-        },
-        Font1: {
-          normal: 'fonts/Font1-Regular.ttf',
-          bold: 'fonts/Font1-Medium.ttf',
-          italics: 'fonts/Font1-Italic.ttf',
-          bolditalics: 'fonts/Font1-MediumItalic.ttf',
-        },
-        Font2: {
-          normal: 'fonts/Font2-Regular.ttf',
-          bold: 'fonts/Font2-Medium.ttf',
-          italics: 'fonts/Font2-Italic.ttf',
-          bolditalics: 'fonts/Font2-MediumItalic.ttf',
-        },
-      });
-    });
-
-    describe('returned function', () => {
-      beforeEach(() => {
-        MockPDFMake.prototype.createPdfKitDocument = jest.fn();
-      });
-
-      it('should add style to pdfmake document', () => {
-        const render = createRenderer();
-        render(<document />);
-
-        expect(MockPDFMake.prototype.createPdfKitDocument).toHaveBeenCalledWith(
-          {
-            defaultStyle: {
-              font: 'OpenSans',
-              fontSize: 12,
-            },
-          },
-        );
-      });
-
-      it('should add custom style to pdfmake document', () => {
-        const render = createRenderer({
-          defaultStyle: {
+  it('should add custom style to pdfmake document', () => {
+    expect(
+      renderPdf(
+        <document
+          defaultStyle={{
             font: 'FontCustom',
             fontSize: 24,
-          },
-        });
-        render(<document />);
+          }}
+        />,
+      ),
+    ).toEqual(
+      expect.objectContaining({
+        defaultStyle: {
+          font: 'FontCustom',
+          fontSize: 24,
+        },
+      }),
+    );
+  });
 
-        expect(MockPDFMake.prototype.createPdfKitDocument).toHaveBeenCalledWith(
-          {
-            defaultStyle: {
-              font: 'FontCustom',
-              fontSize: 24,
-            },
-          },
-        );
-      });
+  it('should return the pdfmake document definition for simple components', () => {
+    expect(
+      renderPdf(
+        <document>
+          <content>hello</content>
+        </document>,
+      ),
+    ).toEqual({
+      content: {
+        stack: ['hello'],
+      },
     });
   });
 
-  describe('basics', () => {
-    it('should return the pdfmake document definition for simple components', () => {
-      expect(
-        toPDFMake(
-          <document>
-            <content>hello</content>
-          </document>,
-        ),
-      ).toEqual({
-        content: {
-          stack: ['hello'],
-        },
-      });
+  it('should return the pdfmake document definition for complex trees of components', () => {
+    expect(
+      renderPdf(
+        <document>
+          <content>
+            <text>first</text>
+            <text>second</text>
+          </content>
+        </document>,
+      ),
+    ).toEqual({
+      content: {
+        stack: [{ text: 'first' }, { text: 'second' }],
+      },
     });
+  });
 
-    it('should return the pdfmake document definition for complex trees of components', () => {
-      expect(
-        toPDFMake(
-          <document>
-            <content>
-              <text>first</text>
-              <text>second</text>
-            </content>
-          </document>,
-        ),
-      ).toEqual({
-        content: {
-          stack: [{ text: 'first' }, { text: 'second' }],
-        },
-      });
+  it('should support numbers inside jsx', () => {
+    expect(
+      renderPdf(
+        <document>
+          <content>{123}</content>
+        </document>,
+      ),
+    ).toEqual({
+      content: {
+        stack: [123],
+      },
     });
+  });
 
-    it('should support numbers inside jsx', () => {
-      expect(
-        toPDFMake(
-          <document>
-            <content>{123}</content>
-          </document>,
-        ),
-      ).toEqual({
-        content: {
-          stack: [123],
-        },
-      });
-    });
-
-    it('should concatenate consecutive numbers rather than adding them', () => {
-      expect(
-        toPDFMake(
-          <document>
-            <content>
-              {123}
-              {456}
-            </content>
-          </document>,
-        ),
-      ).toEqual({
-        content: {
-          stack: ['123456'],
-        },
-      });
+  it('should concatenate consecutive numbers rather than adding them', () => {
+    expect(
+      renderPdf(
+        <document>
+          <content>
+            {123}
+            {456}
+          </content>
+        </document>,
+      ),
+    ).toEqual({
+      content: {
+        stack: ['123456'],
+      },
     });
   });
 
@@ -186,7 +95,7 @@ describe('#jsx-pdf', () => {
       const Component = () => <text>hello</text>;
 
       expect(
-        toPDFMake(
+        renderPdf(
           <document>
             <content>
               <Component />
@@ -209,7 +118,7 @@ describe('#jsx-pdf', () => {
       );
 
       expect(
-        toPDFMake(
+        renderPdf(
           <document>
             <content>
               <Component />
@@ -231,7 +140,7 @@ describe('#jsx-pdf', () => {
       const fragment = <text>test</text>;
 
       expect(
-        toPDFMake(
+        renderPdf(
           <document>
             <content>{fragment}</content>
           </document>,
@@ -247,7 +156,7 @@ describe('#jsx-pdf', () => {
       const Name = () => 'Mr. Test';
 
       expect(
-        toPDFMake(
+        renderPdf(
           <document>
             <content>
               <text>
@@ -265,7 +174,7 @@ describe('#jsx-pdf', () => {
 
     it('should support nested text elements in the stack', () => {
       expect(
-        toPDFMake(
+        renderPdf(
           <document>
             <content>
               <text>
@@ -285,7 +194,7 @@ describe('#jsx-pdf', () => {
 
   it('should ignore falsy values', () => {
     expect(
-      toPDFMake(
+      renderPdf(
         <document>
           <content>
             Hello{null}
@@ -313,7 +222,7 @@ describe('#jsx-pdf', () => {
     const False = () => () => false;
 
     expect(
-      toPDFMake(
+      renderPdf(
         <document>
           <content>
             <text>
@@ -339,7 +248,7 @@ describe('#jsx-pdf', () => {
       const Component = attributes => <text>{attributes.children}</text>;
 
       expect(
-        toPDFMake(
+        renderPdf(
           <document>
             <content>
               <Component>hello</Component>
@@ -366,7 +275,7 @@ describe('#jsx-pdf', () => {
       );
 
       expect(
-        toPDFMake(
+        renderPdf(
           <Provider>
             <document>
               <content>
@@ -393,7 +302,7 @@ describe('#jsx-pdf', () => {
       );
 
       expect(
-        toPDFMake(
+        renderPdf(
           <document>
             <content>
               <Provider />
@@ -420,7 +329,7 @@ describe('#jsx-pdf', () => {
       const MyParentComponent = () => <MyContextualisedComponent />;
 
       expect(
-        toPDFMake(
+        renderPdf(
           <Provider>
             <document>
               <content>
@@ -439,20 +348,20 @@ describe('#jsx-pdf', () => {
 
   describe('document', () => {
     it('should set page size', () => {
-      expect(toPDFMake(<document size={5} />)).toEqual({
+      expect(renderPdf(<document pageSize={5} />)).toEqual({
         pageSize: 5,
       });
     });
 
-    it('should set page margin', () => {
-      expect(toPDFMake(<document margin={10} />)).toEqual({
+    it('should set page margins', () => {
+      expect(renderPdf(<document pageMargins={10} />)).toEqual({
         pageMargins: 10,
       });
     });
 
     ['title', 'author', 'subject', 'keywords'].forEach(field => {
       it(`should set ${field} in info`, () => {
-        expect(toPDFMake(<document {...{ [field]: 'foo' }} />)).toEqual({
+        expect(renderPdf(<document info={{ [field]: 'foo' }} />)).toEqual({
           info: {
             [field]: 'foo',
           },
@@ -462,7 +371,7 @@ describe('#jsx-pdf', () => {
 
     it('should error if a top-level element appears below the top level', () => {
       expect(() => {
-        toPDFMake(
+        renderPdf(
           <document>
             <content>
               <stack>
@@ -476,7 +385,7 @@ describe('#jsx-pdf', () => {
 
     it('should error if a non-top-level element appears at the top level', () => {
       expect(() => {
-        toPDFMake(
+        renderPdf(
           <document>
             <text>oops!</text>
             <content>
@@ -491,7 +400,7 @@ describe('#jsx-pdf', () => {
 
     it('should error if document is not the root element', () => {
       expect(() => {
-        toPDFMake(
+        renderPdf(
           <stack>
             <text>foobar</text>
           </stack>,
@@ -501,7 +410,7 @@ describe('#jsx-pdf', () => {
 
     it('should error if a document appears below the top level', () => {
       expect(() => {
-        toPDFMake(
+        renderPdf(
           <document>
             <content>
               <document />
@@ -515,7 +424,7 @@ describe('#jsx-pdf', () => {
       const Nested = () => <content />;
 
       expect(() => {
-        toPDFMake(
+        renderPdf(
           <document>
             <Nested />
           </document>,
@@ -531,7 +440,7 @@ describe('#jsx-pdf', () => {
       );
 
       expect(
-        toPDFMake(
+        renderPdf(
           <document>
             <Component />
           </document>,
@@ -548,7 +457,7 @@ describe('#jsx-pdf', () => {
     describe('header', () => {
       it('should be converted', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <header>
                 <text>test header</text>
@@ -564,7 +473,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <header fontSize={18} bold>
                 <text>test header</text>
@@ -584,7 +493,7 @@ describe('#jsx-pdf', () => {
     describe('content', () => {
       it('should be converted', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <text>test content</text>
@@ -600,7 +509,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content fontSize={18} bold>
                 <text>test content</text>
@@ -620,7 +529,7 @@ describe('#jsx-pdf', () => {
     describe('footer', () => {
       it('should be converted', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <footer>
                 <text>test footer</text>
@@ -636,7 +545,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <footer fontSize={18} bold>
                 <text>test footer</text>
@@ -656,7 +565,7 @@ describe('#jsx-pdf', () => {
     describe('text', () => {
       it('should be converted', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <text>test text</text>
@@ -676,7 +585,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <text color="blue" bold>
@@ -702,7 +611,7 @@ describe('#jsx-pdf', () => {
     describe('image', () => {
       it('should be converted', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <image src="/users/bob/photo.png" />
@@ -722,7 +631,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <image src="/users/bob/photo.png" margin={[0, 40, 10, 30]} />
@@ -745,7 +654,7 @@ describe('#jsx-pdf', () => {
     describe('stack', () => {
       it('should be converted', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <stack>
@@ -768,7 +677,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <stack fontSize={24} color="red">
@@ -795,7 +704,7 @@ describe('#jsx-pdf', () => {
     describe('columns', () => {
       it('should be converted', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <columns>
@@ -817,7 +726,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <columns fontSize={14} margin={[10, 20, 20, 0]}>
@@ -842,7 +751,7 @@ describe('#jsx-pdf', () => {
       describe('column', () => {
         it('should be converted', () => {
           expect(
-            toPDFMake(
+            renderPdf(
               <document>
                 <content>
                   <column>
@@ -864,7 +773,7 @@ describe('#jsx-pdf', () => {
 
         it('should set passed attributes', () => {
           expect(
-            toPDFMake(
+            renderPdf(
               <document>
                 <content>
                   <column fontSize={24}>
@@ -890,7 +799,7 @@ describe('#jsx-pdf', () => {
     describe('table', () => {
       it('should be converted', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <table>
@@ -914,7 +823,7 @@ describe('#jsx-pdf', () => {
 
       it('should set "headerRows" and "widths" attributes on table', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <table headerRows={1} widths={['auto']}>
@@ -940,7 +849,7 @@ describe('#jsx-pdf', () => {
 
       it('should omit "headerRows" and "widths" on wrapper', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <table
@@ -972,7 +881,7 @@ describe('#jsx-pdf', () => {
       describe('row', () => {
         it('should be converted', () => {
           expect(
-            toPDFMake(
+            renderPdf(
               <document>
                 <content>
                   <row>
@@ -992,7 +901,7 @@ describe('#jsx-pdf', () => {
       describe('cell', () => {
         it('should be converted', () => {
           expect(
-            toPDFMake(
+            renderPdf(
               <document>
                 <content>
                   <cell>
@@ -1014,7 +923,7 @@ describe('#jsx-pdf', () => {
 
         it('should set passed attributes', () => {
           expect(
-            toPDFMake(
+            renderPdf(
               <document>
                 <content>
                   <cell fontSize={24}>
@@ -1040,7 +949,7 @@ describe('#jsx-pdf', () => {
     describe('unordered list', () => {
       it('should be converted', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <ul>
@@ -1063,7 +972,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <ul
@@ -1101,7 +1010,7 @@ describe('#jsx-pdf', () => {
     describe('ordered list', () => {
       it('should be converted', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <ol>
@@ -1124,7 +1033,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          toPDFMake(
+          renderPdf(
             <document>
               <content>
                 <ol
