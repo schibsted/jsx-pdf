@@ -20,10 +20,16 @@ const footerStyle = {
 
 export default (props, context) => (
   <document
-    title="Invoice"
-    author="Example, Inc"
-    size={props.size}
-    margin={docMargins}
+    info={{
+      title: 'Invoice',
+      author: 'Example, Inc',
+    }}
+    pageSize={props.size}
+    pageMargins={docMargins}
+    defaultStyle={{
+      font: 'OpenSans',
+      fontSize: 12,
+    }}
   >
     <header {...headerStyle}>{props.title}</header>
     <content>

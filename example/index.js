@@ -1,8 +1,11 @@
 import fs from 'fs';
 import path from 'path';
+import PDFMake from 'pdfmake';
+
+import { OpenSans } from './font-descriptors';
 
 // library
-import { createElement, createRenderer } from '../dst';
+import { createElement, renderPdf } from '../dst';
 
 // PDF to render
 import PDF from './components/root';
@@ -17,8 +20,14 @@ try {
   const config = {
     copyrightYear: 2018,
   };
-  const render = createRenderer();
-  const stream = render(<PDF config={config} />);
+
+  const pdfMake = new PDFMake({
+    OpenSans,
+  });
+
+  const stream = pdfMake.createPdfKitDocument(
+    renderPdf(<PDF config={config} />),
+  );
 
   // write the stream to a file; this could also be streamed to an HTTP connection, stdout etc
   stream.on('finish', () => console.log('PDF generated'));
