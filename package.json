@@ -1,11 +1,10 @@
 {
   "name": "jsx-pdf",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "main": "dst/index.js",
   "description": "Generate modular PDFs using JSX.",
   "files": [
-    "/dst",
-    "/fonts"
+    "/dst"
   ],
   "author": "Yaroslav Borcheninov <yaroslav.b.npm@gmail.com>",
   "license": "MIT",
@@ -32,8 +31,7 @@
     "demo": "node --require babel-register example/index.js"
   },
   "dependencies": {
-    "lodash": "^4.17.10",
-    "pdfmake": "^0.1.36"
+    "lodash": "^4.17.10"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -57,9 +55,11 @@
     "jest": "^23.1.0",
     "jest-watch-typeahead": "^0.1.0",
     "pdf2json": "^1.1.7",
+    "pdfmake": "^0.1.36",
     "prettier": "^1.9.2"
   },
   "peerDependencies": {
-    "babel-plugin-transform-react-jsx": "^6.0.0"
+    "babel-plugin-transform-react-jsx": "^6.0.0",
+    "pdfmake": "^0.1.36"
   }
 }
