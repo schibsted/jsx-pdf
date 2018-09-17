@@ -10,10 +10,6 @@ import last from 'lodash/last';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 
-// pdf
-import PDFMake from 'pdfmake';
-import OpenSans from './fonts';
-
 const isTextElement = tag => typeof tag === 'string' || typeof tag === 'number';
 const isTopLevelElement = elementName =>
   ['header', 'content', 'footer'].includes(elementName);
@@ -146,10 +142,10 @@ function resolveChildren(tag, parentContext, isTopLevel) {
  * Recursively traverse the JSON component tree created by the createElement calls,
  * resolving components from the bottom up.
  */
-export function toPDFMake(tag) {
+export function renderPdf(tag) {
   const context = createContext();
   const resolvedTag = resolve(tag, context);
-  const { children, elementName, attributes = {} } = resolvedTag;
+  const { children, elementName, attributes } = resolvedTag;
 
   if (elementName !== 'document') {
     throw new Error(
@@ -168,43 +164,8 @@ export function toPDFMake(tag) {
     );
   });
 
-  if (attributes.size) {
-    result.pageSize = attributes.size;
-  }
-
-  if (attributes.margin) {
-    result.pageMargins = attributes.margin;
-  }
-
-  const info = pick(attributes, ['title', 'author', 'subject', 'keywords']);
-
-  if (Object.keys(info).length > 0) {
-    result.info = info;
-  }
-
-  return result;
-}
-
-export function createRenderer({ fontDescriptors, defaultStyle } = {}) {
-  const pdfMake = new PDFMake({
-    OpenSans,
-    ...fontDescriptors,
-  });
-
-  return function render(elementJSON) {
-    const doc = toPDFMake(elementJSON);
-
-    const pdf = pdfMake.createPdfKitDocument({
-      ...doc,
-      defaultStyle: {
-        font: 'OpenSans',
-        fontSize: 12,
-        ...defaultStyle,
-      },
-    });
-
-    // return the stream for the caller to handle (usually by pushing straight to s3
-    // or to the filesystem
-    return pdf;
+  return {
+    ...result,
+    ...attributes,
   };
 }

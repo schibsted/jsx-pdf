@@ -2,24 +2,30 @@
 
 [![npm version](https://badge.fury.io/js/jsx-pdf.svg)](https://www.npmjs.com/jsx-pdf) [![Build Status](https://travis-ci.org/schibsted/jsx-pdf.svg?branch=master)](https://travis-ci.org/schibsted/jsx-pdf) [![Coverage Status](https://coveralls.io/repos/github/schibsted/jsx-pdf/badge.svg?branch=master)](https://coveralls.io/github/schibsted/jsx-pdf?branch=master)
 
-This library allows you to generate modular PDFs using JSX.
+Generate modular PDFs via [pdfmake](http://pdfmake.org/) using JSX.
 
 ```jsx
-import { createElement, createRenderer } from 'jsx-pdf';
+import PDFMake from 'pdfmake';
+import { createElement, renderPdf } from 'jsx-pdf';
+import { OpenSans } from './font-descriptors';
 
-const render = createRenderer();
+const pdfMake = new PDFMake({
+  OpenSans,
+});
 
-const pdf = render(
-  <document>
-    <content>This will appear in my PDF!</content>
-  </document>,
+const stream = pdfMake.createPdfKitDocument(
+  renderPdf(
+    <document defaultStyle={{ font: 'OpenSans', fontSize: 12 }}>
+      <content>This will appear in my PDF!</content>
+    </document>,
+  ),
 );
 
-this.headers['Content-Type'] = 'application/pdf';
-this.body = pdf;
+// write the stream to a file; this could also be streamed to an HTTP connection, stdout etc
+stream.on('finish', () => console.log('PDF generated'));
+stream.pipe(fs.createWriteStream('~/Desktop/test.pdf'));
+stream.end();
 ```
-
-The library is a thin layer built on top of [pdfmake](http://pdfmake.org/). It currently supports a subset of pdfmake's features; most of the time, simply translating tags and attributes into pdfmake document definition format.
 
 ## Quick start
 
@@ -220,13 +226,22 @@ This section describes basic elements provided by the library. More information 
 
 ### Top elements
 
-Each document has to be enclosed within `document` tag with nested `content`, and optional `header` and `footer`.
+Each document has to be enclosed within `document` tag with nested `content`, and optional `header` and `footer`. The document is the place for configuration that affects the whole PDF, such as page margins, page size, default style, and metadata.
 
 ```jsx
 import { createElement } from 'jsx-pdf';
 
 const doc = (
-  <document>
+  <document
+    pageMargins={[20, 20, 20, 20]}
+    pageSize="A4"
+    defaultStyle={{
+      font: 'OpenSans',
+    }}
+    info={{
+      author: 'Buzz Lightyear',
+    }}
+  >
     <header>Greeting</header>
     <content>Hello, Bob!</content>
     <footer>JSX-PDF, Inc.</footer>
@@ -386,39 +401,9 @@ const doc = (
 
 ## API
 
-### createRenderer
+### renderPdf
 
-A factory function that optionally takes fonts and default document style as parameters and returns a render function.
-
-#### fontDescriptors
-
-While the library uses OpenSans as a default font, additional fonts can be passed to the factory. Font paths have to be absolute.
-
-```javascript
-const render = createRenderer({
-  fontDescriptors: {
-    Roboto: {
-      normal: '/home/bob/fonts/Roboto-Regular.ttf',
-      bold: '/home/bob/fonts/Roboto-Medium.ttf',
-      italics: '/home/bob/fonts/Roboto-Italic.ttf',
-      bolditalics: '/home/bob/fonts/Roboto-MediumItalic.ttf'
-    }
-  }
-}
-```
-
-#### defaultStyle
-
-The library defaults to using OpenSans 12pt, which can be overridden in the factory function.
-
-```javascript
-const render = createRenderer({
-  defaultStyle: {
-    font: 'Roboto',
-    fontSize: 14
-  }
-}
-```
+Accepts JSX and returns a PDF JSON representation in the format expected by pdfmake.
 
 ### createElement
 
