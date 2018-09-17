@@ -1,4 +1,4 @@
-import { createElement } from '../../../dst';
+import JsxPdf from '../../../dst';
 
 const baseMargin = 40;
 const headerHeight = 100;

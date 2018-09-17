@@ -11,6 +11,6 @@
   ],
   plugins: [
     ['transform-object-rest-spread', { useBuiltIns: true }],
-    ['transform-react-jsx', { pragma: 'createElement' }],
+    ['transform-react-jsx', { pragma: 'JsxPdf.createElement' }],
   ],
 }

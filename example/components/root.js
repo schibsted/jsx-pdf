@@ -1,5 +1,5 @@
 // libs
-import { createElement } from '../../dst';
+import JsxPdf from '../../dst';
 import ConfigProvider from './providers/config';
 
 // templates
