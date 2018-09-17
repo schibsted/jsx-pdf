@@ -3,14 +3,14 @@
  * Licensed under the MIT license. See LICENSE file in the project root for details.
  */
 
-import { createElement, renderPdf } from '.';
+import JsxPdf from '.';
 
 jest.mock('pdfmake', () => jest.fn());
 
 describe('#jsx-pdf', () => {
   it('should add custom style to pdfmake document', () => {
     expect(
-      renderPdf(
+      JsxPdf.renderPdf(
         <document
           defaultStyle={{
             font: 'FontCustom',
@@ -30,7 +30,7 @@ describe('#jsx-pdf', () => {
 
   it('should return the pdfmake document definition for simple components', () => {
     expect(
-      renderPdf(
+      JsxPdf.renderPdf(
         <document>
           <content>hello</content>
         </document>,
@@ -44,7 +44,7 @@ describe('#jsx-pdf', () => {
 
   it('should return the pdfmake document definition for complex trees of components', () => {
     expect(
-      renderPdf(
+      JsxPdf.renderPdf(
         <document>
           <content>
             <text>first</text>
@@ -61,7 +61,7 @@ describe('#jsx-pdf', () => {
 
   it('should support numbers inside jsx', () => {
     expect(
-      renderPdf(
+      JsxPdf.renderPdf(
         <document>
           <content>{123}</content>
         </document>,
@@ -75,7 +75,7 @@ describe('#jsx-pdf', () => {
 
   it('should concatenate consecutive numbers rather than adding them', () => {
     expect(
-      renderPdf(
+      JsxPdf.renderPdf(
         <document>
           <content>
             {123}
@@ -95,7 +95,7 @@ describe('#jsx-pdf', () => {
       const Component = () => <text>hello</text>;
 
       expect(
-        renderPdf(
+        JsxPdf.renderPdf(
           <document>
             <content>
               <Component />
@@ -118,7 +118,7 @@ describe('#jsx-pdf', () => {
       );
 
       expect(
-        renderPdf(
+        JsxPdf.renderPdf(
           <document>
             <content>
               <Component />
@@ -140,7 +140,7 @@ describe('#jsx-pdf', () => {
       const fragment = <text>test</text>;
 
       expect(
-        renderPdf(
+        JsxPdf.renderPdf(
           <document>
             <content>{fragment}</content>
           </document>,
@@ -156,7 +156,7 @@ describe('#jsx-pdf', () => {
       const Name = () => 'Mr. Test';
 
       expect(
-        renderPdf(
+        JsxPdf.renderPdf(
           <document>
             <content>
               <text>
@@ -174,7 +174,7 @@ describe('#jsx-pdf', () => {
 
     it('should support nested text elements in the stack', () => {
       expect(
-        renderPdf(
+        JsxPdf.renderPdf(
           <document>
             <content>
               <text>
@@ -194,7 +194,7 @@ describe('#jsx-pdf', () => {
 
   it('should ignore falsy values', () => {
     expect(
-      renderPdf(
+      JsxPdf.renderPdf(
         <document>
           <content>
             Hello{null}
@@ -222,7 +222,7 @@ describe('#jsx-pdf', () => {
     const False = () => () => false;
 
     expect(
-      renderPdf(
+      JsxPdf.renderPdf(
         <document>
           <content>
             <text>
@@ -248,7 +248,7 @@ describe('#jsx-pdf', () => {
       const Component = attributes => <text>{attributes.children}</text>;
 
       expect(
-        renderPdf(
+        JsxPdf.renderPdf(
           <document>
             <content>
               <Component>hello</Component>
@@ -275,7 +275,7 @@ describe('#jsx-pdf', () => {
       );
 
       expect(
-        renderPdf(
+        JsxPdf.renderPdf(
           <Provider>
             <document>
               <content>
@@ -302,7 +302,7 @@ describe('#jsx-pdf', () => {
       );
 
       expect(
-        renderPdf(
+        JsxPdf.renderPdf(
           <document>
             <content>
               <Provider />
@@ -329,7 +329,7 @@ describe('#jsx-pdf', () => {
       const MyParentComponent = () => <MyContextualisedComponent />;
 
       expect(
-        renderPdf(
+        JsxPdf.renderPdf(
           <Provider>
             <document>
               <content>
@@ -348,20 +348,22 @@ describe('#jsx-pdf', () => {
 
   describe('document', () => {
     it('should set page size', () => {
-      expect(renderPdf(<document pageSize={5} />)).toEqual({
+      expect(JsxPdf.renderPdf(<document pageSize={5} />)).toEqual({
         pageSize: 5,
       });
     });
 
     it('should set page margins', () => {
-      expect(renderPdf(<document pageMargins={10} />)).toEqual({
+      expect(JsxPdf.renderPdf(<document pageMargins={10} />)).toEqual({
         pageMargins: 10,
       });
     });
 
     ['title', 'author', 'subject', 'keywords'].forEach(field => {
       it(`should set ${field} in info`, () => {
-        expect(renderPdf(<document info={{ [field]: 'foo' }} />)).toEqual({
+        expect(
+          JsxPdf.renderPdf(<document info={{ [field]: 'foo' }} />),
+        ).toEqual({
           info: {
             [field]: 'foo',
           },
@@ -371,7 +373,7 @@ describe('#jsx-pdf', () => {
 
     it('should error if a top-level element appears below the top level', () => {
       expect(() => {
-        renderPdf(
+        JsxPdf.renderPdf(
           <document>
             <content>
               <stack>
@@ -385,7 +387,7 @@ describe('#jsx-pdf', () => {
 
     it('should error if a non-top-level element appears at the top level', () => {
       expect(() => {
-        renderPdf(
+        JsxPdf.renderPdf(
           <document>
             <text>oops!</text>
             <content>
@@ -400,7 +402,7 @@ describe('#jsx-pdf', () => {
 
     it('should error if document is not the root element', () => {
       expect(() => {
-        renderPdf(
+        JsxPdf.renderPdf(
           <stack>
             <text>foobar</text>
           </stack>,
@@ -410,7 +412,7 @@ describe('#jsx-pdf', () => {
 
     it('should error if a document appears below the top level', () => {
       expect(() => {
-        renderPdf(
+        JsxPdf.renderPdf(
           <document>
             <content>
               <document />
@@ -424,7 +426,7 @@ describe('#jsx-pdf', () => {
       const Nested = () => <content />;
 
       expect(() => {
-        renderPdf(
+        JsxPdf.renderPdf(
           <document>
             <Nested />
           </document>,
@@ -440,7 +442,7 @@ describe('#jsx-pdf', () => {
       );
 
       expect(
-        renderPdf(
+        JsxPdf.renderPdf(
           <document>
             <Component />
           </document>,
@@ -457,7 +459,7 @@ describe('#jsx-pdf', () => {
     describe('header', () => {
       it('should be converted', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <header>
                 <text>test header</text>
@@ -473,7 +475,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <header fontSize={18} bold>
                 <text>test header</text>
@@ -493,7 +495,7 @@ describe('#jsx-pdf', () => {
     describe('content', () => {
       it('should be converted', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <text>test content</text>
@@ -509,7 +511,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content fontSize={18} bold>
                 <text>test content</text>
@@ -529,7 +531,7 @@ describe('#jsx-pdf', () => {
     describe('footer', () => {
       it('should be converted', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <footer>
                 <text>test footer</text>
@@ -545,7 +547,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <footer fontSize={18} bold>
                 <text>test footer</text>
@@ -565,7 +567,7 @@ describe('#jsx-pdf', () => {
     describe('text', () => {
       it('should be converted', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <text>test text</text>
@@ -585,7 +587,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <text color="blue" bold>
@@ -611,7 +613,7 @@ describe('#jsx-pdf', () => {
     describe('image', () => {
       it('should be converted', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <image src="/users/bob/photo.png" />
@@ -631,7 +633,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <image src="/users/bob/photo.png" margin={[0, 40, 10, 30]} />
@@ -654,7 +656,7 @@ describe('#jsx-pdf', () => {
     describe('stack', () => {
       it('should be converted', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <stack>
@@ -677,7 +679,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <stack fontSize={24} color="red">
@@ -704,7 +706,7 @@ describe('#jsx-pdf', () => {
     describe('columns', () => {
       it('should be converted', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <columns>
@@ -726,7 +728,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <columns fontSize={14} margin={[10, 20, 20, 0]}>
@@ -751,7 +753,7 @@ describe('#jsx-pdf', () => {
       describe('column', () => {
         it('should be converted', () => {
           expect(
-            renderPdf(
+            JsxPdf.renderPdf(
               <document>
                 <content>
                   <column>
@@ -773,7 +775,7 @@ describe('#jsx-pdf', () => {
 
         it('should set passed attributes', () => {
           expect(
-            renderPdf(
+            JsxPdf.renderPdf(
               <document>
                 <content>
                   <column fontSize={24}>
@@ -799,7 +801,7 @@ describe('#jsx-pdf', () => {
     describe('table', () => {
       it('should be converted', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <table>
@@ -823,7 +825,7 @@ describe('#jsx-pdf', () => {
 
       it('should set "headerRows" and "widths" attributes on table', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <table headerRows={1} widths={['auto']}>
@@ -849,7 +851,7 @@ describe('#jsx-pdf', () => {
 
       it('should omit "headerRows" and "widths" on wrapper', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <table
@@ -881,7 +883,7 @@ describe('#jsx-pdf', () => {
       describe('row', () => {
         it('should be converted', () => {
           expect(
-            renderPdf(
+            JsxPdf.renderPdf(
               <document>
                 <content>
                   <row>
@@ -901,7 +903,7 @@ describe('#jsx-pdf', () => {
       describe('cell', () => {
         it('should be converted', () => {
           expect(
-            renderPdf(
+            JsxPdf.renderPdf(
               <document>
                 <content>
                   <cell>
@@ -923,7 +925,7 @@ describe('#jsx-pdf', () => {
 
         it('should set passed attributes', () => {
           expect(
-            renderPdf(
+            JsxPdf.renderPdf(
               <document>
                 <content>
                   <cell fontSize={24}>
@@ -949,7 +951,7 @@ describe('#jsx-pdf', () => {
     describe('unordered list', () => {
       it('should be converted', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <ul>
@@ -972,7 +974,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <ul
@@ -1010,7 +1012,7 @@ describe('#jsx-pdf', () => {
     describe('ordered list', () => {
       it('should be converted', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <ol>
@@ -1033,7 +1035,7 @@ describe('#jsx-pdf', () => {
 
       it('should set passed attributes', () => {
         expect(
-          renderPdf(
+          JsxPdf.renderPdf(
             <document>
               <content>
                 <ol
