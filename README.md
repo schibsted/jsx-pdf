@@ -6,7 +6,7 @@ Generate modular PDFs via [pdfmake](http://pdfmake.org/) using JSX.
 
 ```jsx
 import PDFMake from 'pdfmake';
-import { createElement, renderPdf } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 import { OpenSans } from './font-descriptors';
 
 const pdfMake = new PDFMake({
@@ -14,7 +14,7 @@ const pdfMake = new PDFMake({
 });
 
 const stream = pdfMake.createPdfKitDocument(
-  renderPdf(
+  JsxPdf.renderPdf(
     <document defaultStyle={{ font: 'OpenSans', fontSize: 12 }}>
       <content>This will appear in my PDF!</content>
     </document>,
@@ -37,7 +37,7 @@ stream.end();
       [
         "transform-react-jsx",
         {
-          "pragma": "createElement"
+          "pragma": "JsxPdf.createElement"
         }
       ]
     ]
@@ -54,7 +54,7 @@ Similar to modern front-end frameworks, you can define your own components using
 #### Basic example:
 
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const Greeting = ({ name }) => <text>Hello, {name}!</text>;
 
@@ -70,7 +70,7 @@ const doc = (
 #### List example:
 
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const GroupGreeting = ({ names }) => (
   <stack>{names.map(name => <Greeting name={name} />)}</stack>
@@ -88,7 +88,7 @@ const doc = (
 #### Inline If example:
 
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const Signature = () => <text>JSX-PDF, Inc.</text>;
 
@@ -111,7 +111,7 @@ const doc = (
 #### Inline If-Else example:
 
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const AnonymousGreeting = () => <text>We don't know you.</text>;
 
@@ -134,7 +134,7 @@ const doc = (
 #### Element variable example:
 
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const SignedGreeting = ({ name }) => {
   let greeting;
@@ -167,7 +167,7 @@ const doc = (
 Styling can be done by adding appropriate attributes to tags. It's often helpful for readability to group style-related attributes together and use the spread syntax.
 
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const Greeting = ({ name }) => {
   const styles = {
@@ -192,7 +192,7 @@ const doc = (
 Each component has access to global context and can update it if necessary.
 
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const AllowedUsersProvider = (attributes, context, updateContext) => {
   updateContext({
@@ -229,7 +229,7 @@ This section describes basic elements provided by the library. More information 
 Each document has to be enclosed within `document` tag with nested `content`, and optional `header` and `footer`. The document is the place for configuration that affects the whole PDF, such as page margins, page size, default style, and metadata.
 
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const doc = (
   <document
@@ -255,7 +255,7 @@ Paragraphs are defined using `text` tag.
 
 <!-- prettier-ignore -->
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const doc = (
   <document>
@@ -279,7 +279,7 @@ const doc = (
 In order to apply styling to a group of paragraphs, they can be wrapped with a `stack` tag.
 
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const doc = (
   <document>
@@ -299,7 +299,7 @@ const doc = (
 Elements nested in `columns` tag will be stacked horizontally.
 
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const doc = (
   <document>
@@ -322,7 +322,7 @@ const doc = (
 Both ordered and unordered lists are supported.
 
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const docWithOrderedList = (
   <document>
@@ -388,7 +388,7 @@ const doc = (
 `image` supports JPEG and PNG formats.
 
 ```jsx
-import { createElement } from 'jsx-pdf';
+import JsxPdf from 'jsx-pdf';
 
 const doc = (
   <document>
@@ -427,7 +427,7 @@ Example `.babelrc` file:
     [
       "transform-react-jsx",
       {
-        "pragma": "createElement"
+        "pragma": "JsxPdf.createElement"
       }
     ]
   ]

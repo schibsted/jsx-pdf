@@ -22,7 +22,7 @@ function createContext(parentContext = {}) {
   return { ...parentContext };
 }
 
-export function createElement(elementName, attributes, ...children) {
+function createElement(elementName, attributes, ...children) {
   const flatChildren = flattenDeep(children);
   return {
     elementName,
@@ -142,7 +142,7 @@ function resolveChildren(tag, parentContext, isTopLevel) {
  * Recursively traverse the JSON component tree created by the createElement calls,
  * resolving components from the bottom up.
  */
-export function renderPdf(tag) {
+function renderPdf(tag) {
   const context = createContext();
   const resolvedTag = resolve(tag, context);
   const { children, elementName, attributes } = resolvedTag;
@@ -169,3 +169,8 @@ export function renderPdf(tag) {
     ...attributes,
   };
 }
+
+export default {
+  createElement,
+  renderPdf,
+};

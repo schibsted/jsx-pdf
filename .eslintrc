@@ -11,7 +11,7 @@
     "react/jsx-filename-extension": "off"
   },
   "settings": {
-    "react": { "pragma": "createElement" }
+    "react": { "pragma": "JsxPdf" }
   },
   "overrides": [
     {

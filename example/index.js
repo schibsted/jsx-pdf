@@ -5,7 +5,7 @@ import PDFMake from 'pdfmake';
 import { OpenSans } from './font-descriptors';
 
 // library
-import { createElement, renderPdf } from '../dst';
+import JsxPdf from '../dst';
 
 // PDF to render
 import PDF from './components/root';
@@ -26,7 +26,7 @@ try {
   });
 
   const stream = pdfMake.createPdfKitDocument(
-    renderPdf(<PDF config={config} />),
+    JsxPdf.renderPdf(<PDF config={config} />),
   );
 
   // write the stream to a file; this could also be streamed to an HTTP connection, stdout etc
