@@ -9,6 +9,7 @@ import isNil from 'lodash/isNil';
 import last from 'lodash/last';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
+import has from 'lodash/has';
 
 const isTextElement = tag => typeof tag === 'string' || typeof tag === 'number';
 const isTopLevelElement = elementName =>
@@ -154,23 +155,47 @@ function renderPdf(tag) {
   }
 
   const result = {};
+  const isTopLevel = true;
 
   children.forEach(child => {
     const resolvedChild = resolve(child, context);
     result[resolvedChild.elementName] = resolveChildren(
       resolvedChild,
       context,
-      true,
+      isTopLevel,
     );
   });
+  let { header, footer } = result;
+
+  if (has(attributes, 'header') && typeof attributes.header === 'function') {
+    header = (currentPage, pageCount, pageSize) =>
+      resolveChildren(
+        attributes.header(currentPage, pageCount, pageSize),
+        context,
+        isTopLevel,
+      );
+  }
+
+  if (has(attributes, 'footer') && typeof attributes.footer === 'function') {
+    footer = (currentPage, pageCount) =>
+      resolveChildren(
+        attributes.footer(currentPage, pageCount),
+        context,
+        isTopLevel,
+      );
+  }
 
   return {
     ...result,
     ...attributes,
+    header,
+    footer,
   };
 }
 
 export default {
   createElement,
   renderPdf,
+  resolve,
+  resolveChildren,
 };
