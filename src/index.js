@@ -196,6 +196,4 @@ function renderPdf(tag) {
 export default {
   createElement,
   renderPdf,
-  resolve,
-  resolveChildren,
 };
