@@ -9,9 +9,9 @@ import isNil from 'lodash/isNil';
 import last from 'lodash/last';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import has from 'lodash/has';
 
 const isTextElement = tag => typeof tag === 'string' || typeof tag === 'number';
+const isFunction = tag => typeof tag === 'function';
 const isTopLevelElement = elementName =>
   ['header', 'content', 'footer'].includes(elementName);
 
@@ -34,7 +34,7 @@ function createElement(elementName, attributes, ...children) {
 
 function resolve(tag, context) {
   let resolvedTag = tag;
-  while (resolvedTag && typeof resolvedTag.elementName === 'function') {
+  while (resolvedTag && isFunction(resolvedTag.elementName)) {
     resolvedTag = resolvedTag.elementName(
       { ...resolvedTag.attributes, children: resolvedTag.children },
       context,
@@ -60,7 +60,7 @@ function resolveChildren(tag, parentContext, isTopLevel) {
     return null;
   }
 
-  if (isTextElement(resolvedTag)) {
+  if (isTextElement(resolvedTag) || isFunction(resolvedTag)) {
     return resolvedTag;
   }
 
@@ -79,7 +79,11 @@ function resolveChildren(tag, parentContext, isTopLevel) {
   }
 
   const resolvedChildren = children.reduce((acc, child) => {
-    const resolvedChild = resolveChildren(child, createContext(parentContext));
+    const childContext = createContext(parentContext);
+    const childVal = isFunction(child)
+      ? (...args) => resolveChildren(child(...args), childContext)
+      : child;
+    const resolvedChild = resolveChildren(childVal, childContext);
 
     if (isTextElement(last(acc)) && isTextElement(resolvedChild)) {
       // If the previous child is a string
@@ -103,8 +107,16 @@ function resolveChildren(tag, parentContext, isTopLevel) {
    */
   switch (elementName) {
     case 'header':
-    case 'content':
     case 'footer':
+      return resolvedChildren.some(x => isFunction(x))
+        ? (...args) => ({
+            stack: resolvedChildren.map(
+              child => (isFunction(child) ? child(...args) : child),
+            ),
+            ...attributes,
+          })
+        : { stack: resolvedChildren, ...attributes };
+    case 'content':
     case 'stack':
     case 'column':
     case 'cell':
@@ -166,23 +178,9 @@ function renderPdf(tag) {
     );
   });
 
-  const documentFnAttrs = ['footer', 'header'].reduce((memo, key) => {
-    /* eslint-disable-next-line no-param-reassign */
-    memo[key] = result[key];
-
-    if (has(attributes, key) && typeof attributes[key] === 'function') {
-      /* eslint-disable-next-line no-param-reassign */
-      memo[key] = (...args) =>
-        resolveChildren(attributes[key](...args), context, isTopLevel);
-    }
-
-    return memo;
-  }, {});
-
   return {
     ...result,
     ...attributes,
-    ...documentFnAttrs,
   };
 }
 

@@ -353,7 +353,7 @@ describe('#jsx-pdf', () => {
       });
     });
 
-    it('should allow header as function', () => {
+    it('should allow header render prop', () => {
       expect.assertions(5);
 
       const CURRENT = 1;
@@ -361,14 +361,14 @@ describe('#jsx-pdf', () => {
       const PAGE_SIZE = { width: 1080 };
 
       const result = JsxPdf.renderPdf(
-        <document
-          header={(currentPage, pageCount, pageSize) => {
-            expect(currentPage).toBe(CURRENT);
-            expect(pageCount).toBe(TOTAL);
-            expect(pageSize).toBe(PAGE_SIZE);
+        <document>
+          <header>
+            {(currentPage, pageCount, pageSize) => {
+              expect(currentPage).toBe(CURRENT);
+              expect(pageCount).toBe(TOTAL);
+              expect(pageSize).toBe(PAGE_SIZE);
 
-            return (
-              <header>
+              return (
                 <columns>
                   <column width="*">I am the head</column>
                   <column width="*">
@@ -376,10 +376,10 @@ describe('#jsx-pdf', () => {
                   </column>
                   <column width="*">{pageSize}</column>
                 </columns>
-              </header>
-            );
-          }}
-        />,
+              );
+            }}
+          </header>
+        </document>,
       );
 
       expect(result).toEqual({
@@ -399,30 +399,30 @@ describe('#jsx-pdf', () => {
       });
     });
 
-    it('should allow footer as function', () => {
+    it('should allow footer render prop', () => {
       expect.assertions(4);
 
       const CURRENT = 1;
       const TOTAL = 2;
 
       const result = JsxPdf.renderPdf(
-        <document
-          footer={(currentPage, pageCount) => {
-            expect(currentPage).toBe(CURRENT);
-            expect(pageCount).toBe(TOTAL);
+        <document>
+          <footer>
+            {(currentPage, pageCount) => {
+              expect(currentPage).toBe(CURRENT);
+              expect(pageCount).toBe(TOTAL);
 
-            return (
-              <footer>
+              return (
                 <columns>
                   <column width="*">I am the foot</column>
                   <column width="*">
                     Page {currentPage} of {pageCount}
                   </column>
                 </columns>
-              </footer>
-            );
-          }}
-        />,
+              );
+            }}
+          </footer>
+        </document>,
       );
 
       expect(result).toEqual({
@@ -441,7 +441,7 @@ describe('#jsx-pdf', () => {
       });
     });
 
-    it('should not override header/footer if no function is used', () => {
+    it('should not override header/footer if no render prop is used', () => {
       expect.assertions(1);
 
       const result = JsxPdf.renderPdf(
@@ -460,57 +460,6 @@ describe('#jsx-pdf', () => {
         content: { stack: ['Hello'] },
         footer: { stack: [{ text: 'I am the foot' }] },
         header: { stack: [{ text: 'I am the head' }] },
-      });
-    });
-
-    it('should override header/footer if function is used', () => {
-      expect.assertions(4);
-
-      const CURRENT = 1;
-      const TOTAL = 2;
-      const result = JsxPdf.renderPdf(
-        <document
-          footer={(currentPage, pageCount) => {
-            expect(currentPage).toBe(CURRENT);
-            expect(pageCount).toBe(TOTAL);
-
-            return (
-              <footer>
-                <columns>
-                  <column width="*">I am the foot</column>
-                  <column width="*">
-                    Page {currentPage} of {pageCount}
-                  </column>
-                </columns>
-              </footer>
-            );
-          }}
-        >
-          <header>
-            <text>I am the head</text>
-          </header>
-          <content>Hello</content>
-          <footer>
-            <text>I am the foot</text>
-          </footer>
-        </document>,
-      );
-
-      expect(result).toEqual({
-        content: { stack: ['Hello'] },
-        header: { stack: [{ text: 'I am the head' }] },
-        footer: expect.any(Function),
-      });
-
-      expect(result.footer(CURRENT, TOTAL)).toEqual({
-        stack: [
-          {
-            columns: [
-              { stack: ['I am the foot'], width: '*' },
-              { stack: ['Page 1 of 2'], width: '*' },
-            ],
-          },
-        ],
       });
     });
 
