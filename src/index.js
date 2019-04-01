@@ -11,7 +11,6 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 
 const isTextElement = tag => typeof tag === 'string' || typeof tag === 'number';
-const isFunction = tag => typeof tag === 'function';
 const isTopLevelElement = elementName =>
   ['header', 'content', 'footer'].includes(elementName);
 
@@ -34,7 +33,7 @@ function createElement(elementName, attributes, ...children) {
 
 function resolve(tag, context) {
   let resolvedTag = tag;
-  while (resolvedTag && isFunction(resolvedTag.elementName)) {
+  while (resolvedTag && typeof resolvedTag.elementName === 'function') {
     resolvedTag = resolvedTag.elementName(
       { ...resolvedTag.attributes, children: resolvedTag.children },
       context,
@@ -60,7 +59,7 @@ function resolveChildren(tag, parentContext, isTopLevel) {
     return null;
   }
 
-  if (isTextElement(resolvedTag) || isFunction(resolvedTag)) {
+  if (isTextElement(resolvedTag)) {
     return resolvedTag;
   }
 
@@ -78,12 +77,21 @@ function resolveChildren(tag, parentContext, isTopLevel) {
     );
   }
 
+  if (
+    ['header', 'footer'].includes(elementName) &&
+    children.length === 1 &&
+    typeof children[0] === 'function'
+  ) {
+    return (...args) => ({
+      stack: [
+        resolveChildren(children[0](...args), createContext(parentContext)),
+      ],
+      ...attributes,
+    });
+  }
+
   const resolvedChildren = children.reduce((acc, child) => {
-    const childContext = createContext(parentContext);
-    const childVal = isFunction(child)
-      ? (...args) => resolveChildren(child(...args), childContext)
-      : child;
-    const resolvedChild = resolveChildren(childVal, childContext);
+    const resolvedChild = resolveChildren(child, createContext(parentContext));
 
     if (isTextElement(last(acc)) && isTextElement(resolvedChild)) {
       // If the previous child is a string
@@ -107,16 +115,8 @@ function resolveChildren(tag, parentContext, isTopLevel) {
    */
   switch (elementName) {
     case 'header':
-    case 'footer':
-      return resolvedChildren.some(x => isFunction(x))
-        ? (...args) => ({
-            stack: resolvedChildren.map(
-              child => (isFunction(child) ? child(...args) : child),
-            ),
-            ...attributes,
-          })
-        : { stack: resolvedChildren, ...attributes };
     case 'content':
+    case 'footer':
     case 'stack':
     case 'column':
     case 'cell':
