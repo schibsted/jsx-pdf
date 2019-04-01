@@ -165,31 +165,24 @@ function renderPdf(tag) {
       isTopLevel,
     );
   });
-  let { header, footer } = result;
 
-  if (has(attributes, 'header') && typeof attributes.header === 'function') {
-    header = (currentPage, pageCount, pageSize) =>
-      resolveChildren(
-        attributes.header(currentPage, pageCount, pageSize),
-        context,
-        isTopLevel,
-      );
-  }
+  const documentFnAttrs = ['footer', 'header'].reduce((memo, key) => {
+    /* eslint-disable-next-line no-param-reassign */
+    memo[key] = result[key];
 
-  if (has(attributes, 'footer') && typeof attributes.footer === 'function') {
-    footer = (currentPage, pageCount) =>
-      resolveChildren(
-        attributes.footer(currentPage, pageCount),
-        context,
-        isTopLevel,
-      );
-  }
+    if (has(attributes, key) && typeof attributes[key] === 'function') {
+      /* eslint-disable-next-line no-param-reassign */
+      memo[key] = (...args) =>
+        resolveChildren(attributes[key](...args), context, isTopLevel);
+    }
+
+    return memo;
+  }, {});
 
   return {
     ...result,
     ...attributes,
-    header,
-    footer,
+    ...documentFnAttrs,
   };
 }
 
