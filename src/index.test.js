@@ -441,6 +441,79 @@ describe('#jsx-pdf', () => {
       });
     });
 
+    it('should not override header/footer if no function is used', () => {
+      expect.assertions(1);
+
+      const result = JsxPdf.renderPdf(
+        <document>
+          <header>
+            <text>I am the head</text>
+          </header>
+          <content>Hello</content>
+          <footer>
+            <text>I am the foot</text>
+          </footer>
+        </document>,
+      );
+
+      expect(result).toEqual({
+        content: { stack: ['Hello'] },
+        footer: { stack: [{ text: 'I am the foot' }] },
+        header: { stack: [{ text: 'I am the head' }] },
+      });
+    });
+
+    it('should override header/footer if function is used', () => {
+      expect.assertions(4);
+
+      const CURRENT = 1;
+      const TOTAL = 2;
+      const result = JsxPdf.renderPdf(
+        <document
+          footer={(currentPage, pageCount) => {
+            expect(currentPage).toBe(CURRENT);
+            expect(pageCount).toBe(TOTAL);
+
+            return (
+              <footer>
+                <columns>
+                  <column width="*">I am the foot</column>
+                  <column width="*">
+                    Page {currentPage} of {pageCount}
+                  </column>
+                </columns>
+              </footer>
+            );
+          }}
+        >
+          <header>
+            <text>I am the head</text>
+          </header>
+          <content>Hello</content>
+          <footer>
+            <text>I am the foot</text>
+          </footer>
+        </document>,
+      );
+
+      expect(result).toEqual({
+        content: { stack: ['Hello'] },
+        header: { stack: [{ text: 'I am the head' }] },
+        footer: expect.any(Function),
+      });
+
+      expect(result.footer(CURRENT, TOTAL)).toEqual({
+        stack: [
+          {
+            columns: [
+              { stack: ['I am the foot'], width: '*' },
+              { stack: ['Page 1 of 2'], width: '*' },
+            ],
+          },
+        ],
+      });
+    });
+
     it('should set page margins', () => {
       expect(JsxPdf.renderPdf(<document pageMargins={10} />)).toEqual({
         pageMargins: 10,
