@@ -353,6 +353,116 @@ describe('#jsx-pdf', () => {
       });
     });
 
+    it('should allow header render prop', () => {
+      expect.assertions(5);
+
+      const CURRENT = 1;
+      const TOTAL = 2;
+      const PAGE_SIZE = { width: 1080 };
+
+      const result = JsxPdf.renderPdf(
+        <document>
+          <header>
+            {(currentPage, pageCount, pageSize) => {
+              expect(currentPage).toBe(CURRENT);
+              expect(pageCount).toBe(TOTAL);
+              expect(pageSize).toBe(PAGE_SIZE);
+
+              return (
+                <columns>
+                  <column width="*">I am the head</column>
+                  <column width="*">
+                    Page {currentPage} of {pageCount}
+                  </column>
+                  <column width="*">{pageSize}</column>
+                </columns>
+              );
+            }}
+          </header>
+        </document>,
+      );
+
+      expect(result).toEqual({
+        header: expect.any(Function),
+      });
+
+      expect(result.header(CURRENT, TOTAL, PAGE_SIZE)).toEqual({
+        stack: [
+          {
+            columns: [
+              { stack: ['I am the head'], width: '*' },
+              { stack: ['Page 1 of 2'], width: '*' },
+              { stack: [], width: '*' },
+            ],
+          },
+        ],
+      });
+    });
+
+    it('should allow footer render prop', () => {
+      expect.assertions(4);
+
+      const CURRENT = 1;
+      const TOTAL = 2;
+
+      const result = JsxPdf.renderPdf(
+        <document>
+          <footer>
+            {(currentPage, pageCount) => {
+              expect(currentPage).toBe(CURRENT);
+              expect(pageCount).toBe(TOTAL);
+
+              return (
+                <columns>
+                  <column width="*">I am the foot</column>
+                  <column width="*">
+                    Page {currentPage} of {pageCount}
+                  </column>
+                </columns>
+              );
+            }}
+          </footer>
+        </document>,
+      );
+
+      expect(result).toEqual({
+        footer: expect.any(Function),
+      });
+
+      expect(result.footer(CURRENT, TOTAL)).toEqual({
+        stack: [
+          {
+            columns: [
+              { stack: ['I am the foot'], width: '*' },
+              { stack: ['Page 1 of 2'], width: '*' },
+            ],
+          },
+        ],
+      });
+    });
+
+    it('should allow simple header & footer', () => {
+      expect.assertions(1);
+
+      const result = JsxPdf.renderPdf(
+        <document>
+          <header>
+            <text>I am the head</text>
+          </header>
+          <content>Hello</content>
+          <footer>
+            <text>I am the foot</text>
+          </footer>
+        </document>,
+      );
+
+      expect(result).toEqual({
+        content: { stack: ['Hello'] },
+        footer: { stack: [{ text: 'I am the foot' }] },
+        header: { stack: [{ text: 'I am the head' }] },
+      });
+    });
+
     it('should set page margins', () => {
       expect(JsxPdf.renderPdf(<document pageMargins={10} />)).toEqual({
         pageMargins: 10,

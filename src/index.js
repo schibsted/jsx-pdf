@@ -77,6 +77,19 @@ function resolveChildren(tag, parentContext, isTopLevel) {
     );
   }
 
+  if (
+    ['header', 'footer'].includes(elementName) &&
+    children.length === 1 &&
+    typeof children[0] === 'function'
+  ) {
+    return (...args) => ({
+      stack: [
+        resolveChildren(children[0](...args), createContext(parentContext)),
+      ],
+      ...attributes,
+    });
+  }
+
   const resolvedChildren = children.reduce((acc, child) => {
     const resolvedChild = resolveChildren(child, createContext(parentContext));
 
@@ -154,13 +167,14 @@ function renderPdf(tag) {
   }
 
   const result = {};
+  const isTopLevel = true;
 
   children.forEach(child => {
     const resolvedChild = resolve(child, context);
     result[resolvedChild.elementName] = resolveChildren(
       resolvedChild,
       context,
-      true,
+      isTopLevel,
     );
   });
 
