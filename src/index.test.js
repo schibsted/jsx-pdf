@@ -441,7 +441,7 @@ describe('#jsx-pdf', () => {
       });
     });
 
-    it('should not override header/footer if no render prop is used', () => {
+    it('should allow simple header & footer', () => {
       expect.assertions(1);
 
       const result = JsxPdf.renderPdf(
