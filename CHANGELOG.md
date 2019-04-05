@@ -1,3 +1,9 @@
+# 2.1.0
+
+## New Features
+
+- It's now possible to obtain the page, page count, and page size in the header and footer by passing a render function as the only child. See the readme for an example.
+
 # 2.0.0
 
 ## Breaking changes

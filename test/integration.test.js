@@ -45,5 +45,9 @@ describe('pdf', () => {
     it('should contain the company name', () => {
       expect(content).toContain('Example, Inc');
     });
+
+    it('should contain page info in the footer', () => {
+      expect(content).toContain('Page 1 of 1.');
+    });
   });
 });

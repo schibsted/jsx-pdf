@@ -41,6 +41,6 @@ export default (props, context) => (
       pellentesque. Sed eget nisi eleifend, ullamcorper orci eget, eleifend
       felis. Donec gravida enim dapibus nibh sollicitudin euismod.
     </content>
-    <footer {...footerStyle}>© {context.config.copyrightYear}</footer>
+    <footer {...footerStyle}>{(page, count) => `© ${context.config.copyrightYear}. Page ${page} of ${count}.`}</footer>
   </document>
 );

@@ -249,6 +249,29 @@ const doc = (
 );
 ```
 
+### Dynamic Header and Footer
+
+If you want to use the [dynamic header functionality](https://pdfmake.github.io/docs/document-definition-object/headers-footers/) in pdfmake, simply pass a render function as the only child of the header or footer:
+
+```jsx
+const doc = (
+  <document>
+    <header>
+      {(currentPage, pageCount) => (
+        <text>Page {currentPage} of {pageCount}.</text>
+      )}
+    </header>
+    <content>{/* ... */}</content>
+  </document>
+);
+```
+
+The parameters are:
+
+* `currentPage` - the 1-indexed page for which the content is being rendered
+* `pageCount` - the total number of pages in the document
+* `pageSize` - an object containing information about the dimensions of the page.
+
 ### Paragraphs
 
 Paragraphs are defined using `text` tag.
