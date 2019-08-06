@@ -271,8 +271,8 @@ describe('#jsx-pdf', () => {
         return attributes.children[0];
       };
 
-      const MyContextualisedComponent = (attributes, context) => (
-        <text>{context.mytest}</text>
+      const MyContextualisedComponent = (attributes, { mytest }) => (
+        <text>{mytest}</text>
       );
 
       expect(
@@ -298,8 +298,8 @@ describe('#jsx-pdf', () => {
         return <text>first</text>;
       };
 
-      const SiblingProvider = (attributes, context) => (
-        <text>{context.mytest || 'it worked'}</text>
+      const SiblingProvider = (attributes, { mytest }) => (
+        <text>{mytest || 'it worked'}</text>
       );
 
       expect(
@@ -324,8 +324,8 @@ describe('#jsx-pdf', () => {
         return attributes.children[0];
       };
 
-      const MyContextualisedComponent = (attributes, context) => (
-        <text>{context.mytest}</text>
+      const MyContextualisedComponent = (attributes, { mytest }) => (
+        <text>{mytest}</text>
       );
       const MyParentComponent = () => <MyContextualisedComponent />;
 

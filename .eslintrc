@@ -8,7 +8,24 @@
   ],
   "root": true,
   "rules": {
-    "react/jsx-filename-extension": "off"
+    "react/jsx-filename-extension": "off",
+    "react/prop-types": "off",
+    "unicorn/catch-error-name": [
+      "error",
+      {
+        "name": "err"
+      }
+    ],
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        "replacements": {
+          "args": false,
+          "err": false,
+          "props": false
+        }
+      }
+    ]
   },
   "settings": {
     "react": { "pragma": "JsxPdf" }

@@ -4,10 +4,15 @@ const baseMargin = 40;
 const headerHeight = 100;
 const footerHeight = 50;
 
-const docTopMargin = baseMargin + headerHeight;
-const docBottomMargin = baseMargin + footerHeight;
+const documentTopMargin = baseMargin + headerHeight;
+const documentBottomMargin = baseMargin + footerHeight;
 
-const docMargins = [baseMargin, docTopMargin, baseMargin, docBottomMargin];
+const documentMargins = [
+  baseMargin,
+  documentTopMargin,
+  baseMargin,
+  documentBottomMargin,
+];
 
 const headerStyle = {
   fontSize: 24,
@@ -18,20 +23,20 @@ const footerStyle = {
   margin: [baseMargin, 0, baseMargin, baseMargin],
 };
 
-export default (props, context) => (
+export default ({ size, title }, context) => (
   <document
     info={{
       title: 'Invoice',
       author: 'Example, Inc',
     }}
-    pageSize={props.size}
-    pageMargins={docMargins}
+    pageSize={size}
+    pageMargins={documentMargins}
     defaultStyle={{
       font: 'OpenSans',
       fontSize: 12,
     }}
   >
-    <header {...headerStyle}>{props.title}</header>
+    <header {...headerStyle}>{title}</header>
     <content>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tincidunt
       ornare tortor vel facilisis. Nullam suscipit iaculis sollicitudin. In sit
@@ -41,6 +46,10 @@ export default (props, context) => (
       pellentesque. Sed eget nisi eleifend, ullamcorper orci eget, eleifend
       felis. Donec gravida enim dapibus nibh sollicitudin euismod.
     </content>
-    <footer {...footerStyle}>{(page, count) => `© ${context.config.copyrightYear}. Page ${page} of ${count}.`}</footer>
+    <footer {...footerStyle}>
+      {(page, count) =>
+        `© ${context.config.copyrightYear}. Page ${page} of ${count}.`
+      }
+    </footer>
   </document>
 );

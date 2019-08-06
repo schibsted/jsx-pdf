@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import fs from 'fs';
 import path from 'path';
 import PDFMake from 'pdfmake';
@@ -33,9 +35,9 @@ try {
   stream.on('finish', () => console.log('PDF generated'));
   stream.pipe(fs.createWriteStream(path.resolve(__dirname, 'example.pdf')));
   stream.end();
-} catch (e) {
+} catch (err) {
   console.error('PDF generation failed');
-  console.error(e);
+  console.error(err);
 } finally {
   // metrics
   const end = Date.now();
