@@ -1,3 +1,7 @@
+# 2.1.1
+
+- All dependencies updated to latest version. This means that we've switched from `babel-plugin-transform-react-jsx` to `@babel/plugin-transform-react-jsx` in our peerDependencies and documentation. While this means that if you're still using the old package you'll get a warning, both versions of the plugin should work just fine.
+
 # 2.1.0
 
 ## New Features
