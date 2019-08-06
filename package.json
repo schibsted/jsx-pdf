@@ -34,35 +34,34 @@
     "node": ">=8"
   },
   "dependencies": {
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
-    "coveralls": "^3.0.2",
-    "eslint": "^4.13.1",
-    "eslint-config-schibsted": "^6.0.0",
-    "eslint-config-schibsted-modules": "^6.0.0",
-    "eslint-config-schibsted-node": "^6.0.0",
-    "eslint-config-schibsted-react": "^6.0.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jest": "^21.17.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-prettier": "^2.4.0",
-    "eslint-plugin-react": "^7.9.1",
-    "eslint-plugin-unicorn": "^3.0.1",
-    "jest": "^23.1.0",
-    "jest-watch-typeahead": "^0.1.0",
-    "pdf2json": "^1.1.7",
-    "pdfmake": "^0.1.36",
-    "prettier": "^1.9.2"
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
+    "coveralls": "^3.0.6",
+    "eslint": "^6.1.0",
+    "eslint-config-schibsted": "^7.0.0",
+    "eslint-config-schibsted-modules": "^7.0.0",
+    "eslint-config-schibsted-node": "^7.0.0",
+    "eslint-config-schibsted-react": "^7.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.14.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-unicorn": "^10.0.0",
+    "jest": "^24.8.0",
+    "jest-watch-typeahead": "^0.3.1",
+    "pdf2json": "^1.1.8",
+    "pdfmake": "^0.1.58",
+    "prettier": "^1.18.2"
   },
   "peerDependencies": {
-    "babel-plugin-transform-react-jsx": "^6.0.0",
+    "@babel/plugin-transform-react-jsx": "^7.0.0",
     "pdfmake": "^0.1.36"
   }
 }
