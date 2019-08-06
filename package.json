@@ -21,14 +21,16 @@
   "scripts": {
     "dev": "yarn build -- --watch src",
     "build": "babel src --out-dir dst --ignore '**/*.test.js'",
-    "lint": "eslint \"{src,example,test}\"",
+    "lint": "yarn eslint && yarn prettier:check",
+    "eslint": "eslint \"{src,example,test}/**/*.js\"",
+    "prettier:check": "prettier --check **/*.{js,json,md,babelrc,eslintrc,prettierrc}",
+    "prettier:write": "prettier --write **/*.{js,json,md,babelrc,eslintrc,prettierrc}",
     "test": "yarn lint && yarn test:unit${TRAVIS:+:coveralls}",
     "test:unit": "jest --coverage -c jest.unit.config.js",
     "test:unit:coveralls": "jest --coverage --coverageReporters=text-lcov -c jest.unit.config.js | coveralls",
     "test:integration": "yarn demo && jest -c jest.integration.config.js",
     "prepublish": "yarn test:unit && yarn build && yarn test:integration",
-    "prettier": "prettier --write **/*.{js,json,md,babelrc,eslintrc,prettierrc}",
-    "demo": "node --require babel-register example/index.js"
+    "demo": "node --require @babel/register example/index.js"
   },
   "engines": {
     "node": ">=8"
