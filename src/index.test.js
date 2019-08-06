@@ -226,7 +226,8 @@ describe('#jsx-pdf', () => {
         <document>
           <content>
             <text>
-              Hello<Null />
+              Hello
+              <Null />
               <Undefined />
               <Empty />
               <Zero />

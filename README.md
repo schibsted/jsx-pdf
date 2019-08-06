@@ -73,7 +73,11 @@ const doc = (
 import JsxPdf from 'jsx-pdf';
 
 const GroupGreeting = ({ names }) => (
-  <stack>{names.map(name => <Greeting name={name} />)}</stack>
+  <stack>
+    {names.map(name => (
+      <Greeting name={name} />
+    ))}
+  </stack>
 );
 
 const doc = (
@@ -258,7 +262,9 @@ const doc = (
   <document>
     <header>
       {(currentPage, pageCount) => (
-        <text>Page {currentPage} of {pageCount}.</text>
+        <text>
+          Page {currentPage} of {pageCount}.
+        </text>
       )}
     </header>
     <content>{/* ... */}</content>
@@ -268,9 +274,9 @@ const doc = (
 
 The parameters are:
 
-* `currentPage` - the 1-indexed page for which the content is being rendered
-* `pageCount` - the total number of pages in the document
-* `pageSize` - an object containing information about the dimensions of the page.
+- `currentPage` - the 1-indexed page for which the content is being rendered
+- `pageCount` - the total number of pages in the document
+- `pageSize` - an object containing information about the dimensions of the page.
 
 ### Paragraphs
 
