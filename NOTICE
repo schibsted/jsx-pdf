@@ -16,7 +16,7 @@ lodash:
 
 # DEVELOPMENT DEPENDENCIES
 
-babel: babel-cli, babel-core, babel-plugin-transform-object-rest-spread, babel-plugin-transform-react-jsx, babel-preset-env
+babel: @babel/cli, @babel/core, @babel/plugin-transform-react-jsx, @babel/preset-env
     LICENCE: MIT,
              https://github.com/babel/babel/blob/master/LICENSE
 

@@ -29,16 +29,14 @@ stream.end();
 
 ## Quick start
 
-- `yarn add jsx-pdf babel-plugin-transform-react-jsx@^6.0.0`
+- `yarn add jsx-pdf @babel/plugin-transform-react-jsx`
 - Ensure babel is set up for your project and your .babelrc or equivalent contains
   ```json
   {
     "plugins": [
       [
-        "transform-react-jsx",
-        {
-          "pragma": "JsxPdf.createElement"
-        }
+        "@babel/plugin-transform-react-jsx",
+        { "pragma": "JsxPdf.createElement" }
       ]
     ]
   }
@@ -73,7 +71,11 @@ const doc = (
 import JsxPdf from 'jsx-pdf';
 
 const GroupGreeting = ({ names }) => (
-  <stack>{names.map(name => <Greeting name={name} />)}</stack>
+  <stack>
+    {names.map(name => (
+      <Greeting name={name} />
+    ))}
+  </stack>
 );
 
 const doc = (
@@ -258,7 +260,9 @@ const doc = (
   <document>
     <header>
       {(currentPage, pageCount) => (
-        <text>Page {currentPage} of {pageCount}.</text>
+        <text>
+          Page {currentPage} of {pageCount}.
+        </text>
       )}
     </header>
     <content>{/* ... */}</content>
@@ -268,9 +272,9 @@ const doc = (
 
 The parameters are:
 
-* `currentPage` - the 1-indexed page for which the content is being rendered
-* `pageCount` - the total number of pages in the document
-* `pageSize` - an object containing information about the dimensions of the page.
+- `currentPage` - the 1-indexed page for which the content is being rendered
+- `pageCount` - the total number of pages in the document
+- `pageSize` - an object containing information about the dimensions of the page.
 
 ### Paragraphs
 
@@ -430,7 +434,7 @@ Accepts JSX and returns a PDF JSON representation in the format expected by pdfm
 
 ### createElement
 
-This function converts JSX to object representation. Every time JSX syntax is used, the function has to be made available. The functionality depends the babel plugin `babel-plugin-transform-react-jsx` (or equivalent), and Babel must be set up in the project in order to transpile the JSX correctly.
+This function converts JSX to object representation. Every time JSX syntax is used, the function has to be made available. The functionality depends on the babel plugin `@babel/plugin-transform-react-jsx` (or equivalent), and Babel must be set up in the project in order to transpile the JSX correctly.
 
 Example `.babelrc` file:
 

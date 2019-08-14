@@ -1,16 +1,15 @@
 {
-  presets: [
+  "presets": [
     [
-      'env',
+      "@babel/preset-env",
       {
-        targets: {
-          node: '6',
-        },
-      },
-    ],
+        "targets": {
+          "node": "8"
+        }
+      }
+    ]
   ],
-  plugins: [
-    ['transform-object-rest-spread', { useBuiltIns: true }],
-    ['transform-react-jsx', { pragma: 'JsxPdf.createElement' }],
-  ],
+  "plugins": [
+    ["@babel/plugin-transform-react-jsx", { "pragma": "JsxPdf.createElement" }]
+  ]
 }
