@@ -30,16 +30,22 @@ stream.end();
 ## Quick start
 
 - `yarn add jsx-pdf @babel/plugin-transform-react-jsx`
-- Ensure babel is set up for your project and your .babelrc or equivalent contains
+- Configure the part of your build that transpiles your JSX to use `JsxPdf.createElement` as the element factory.
+  - For babel, add the configuration below to your `.babelrc`.
   ```json
-  {
-    "plugins": [
-      [
-        "@babel/plugin-transform-react-jsx",
-        { "pragma": "JsxPdf.createElement" }
-      ]
+  "plugins": [
+    [
+      "@babel/plugin-transform-react-jsx",
+      { "pragma": "JsxPdf.createElement" }
     ]
-  }
+  ]
+  ```
+  - For TypeScript, add the configuration below to your `tsconfig.json`. Setting `jsx` to `react` configures TypeScript to handle JSX transpiling for you, and the `jsxFactory` option specifies the element factory to use.
+  ```json
+  "compilerOptions": {
+    "jsx": "react",
+    "jsxFactory": "JsxPdf.createElement",
+  },
   ```
 - Code away! See the examples below.
 
