@@ -199,7 +199,7 @@ describe('#jsx-pdf', () => {
           <content>
             Hello{null}
             {undefined}
-            {''}
+            {'' /* eslint-disable-line react/jsx-curly-brace-presence */}
             {0}
             {NaN}
             {false}!

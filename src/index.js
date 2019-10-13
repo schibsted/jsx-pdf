@@ -90,22 +90,24 @@ function resolveChildren(tag, parentContext, isTopLevel) {
     });
   }
 
-  const resolvedChildren = children.reduce((acc, child) => {
+  const resolvedChildren = children.reduce((accumulator, child) => {
     const resolvedChild = resolveChildren(child, createContext(parentContext));
 
-    if (isTextElement(last(acc)) && isTextElement(resolvedChild)) {
+    if (isTextElement(last(accumulator)) && isTextElement(resolvedChild)) {
       // If the previous child is a string
       // and the next child is a string,
       // join them together.
-      acc[acc.length - 1] = `${acc[acc.length - 1]}${resolvedChild}`;
+      accumulator[accumulator.length - 1] = `${
+        accumulator[accumulator.length - 1]
+      }${resolvedChild}`;
     } else if (!isNil(resolvedChild)) {
       // Otherwise push the child onto
       // the accumulator (as long as it's
       // not null or undefined).
-      acc.push(resolvedChild);
+      accumulator.push(resolvedChild);
     }
 
-    return acc;
+    return accumulator;
   }, []);
 
   /**
