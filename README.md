@@ -432,6 +432,28 @@ const doc = (
 );
 ```
 
+### SVGs
+
+The `svg` tag can be used to render SVG images. The `width`, `height` and `fill` attributes can be used to control the size of the image as described in the [pdfmake docs](https://pdfmake.github.io/docs/document-definition-object/svgs/).
+
+```jsx
+import JsxPdf from 'jsx-pdf';
+
+const doc = (
+  <document>
+    <content>
+      <svg
+        content={`
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="red" cx="50" cy="50" r="50"/>
+          </svg>
+        `}
+      />
+    </content>
+  </document>
+);
+```
+
 ## API
 
 ### renderPdf
