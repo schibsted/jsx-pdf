@@ -201,7 +201,7 @@ describe('#jsx-pdf', () => {
             {undefined}
             {'' /* eslint-disable-line react/jsx-curly-brace-presence */}
             {0}
-            {NaN}
+            {Number.NaN}
             {false}!
           </content>
         </document>,
@@ -218,7 +218,7 @@ describe('#jsx-pdf', () => {
     const Undefined = () => {};
     const Empty = () => '';
     const Zero = () => 0;
-    const NAN = () => NaN;
+    const NAN = () => Number.NaN;
     const False = () => () => false;
 
     expect(
