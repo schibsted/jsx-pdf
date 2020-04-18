@@ -64,6 +64,6 @@
   },
   "peerDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.0.0",
-    "pdfmake": "^0.1.36"
+    "pdfmake": "^0.1.59"
   }
 }
