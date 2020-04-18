@@ -10,8 +10,9 @@ import last from 'lodash/last';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 
-const isTextElement = tag => typeof tag === 'string' || typeof tag === 'number';
-const isTopLevelElement = elementName =>
+const isTextElement = (tag) =>
+  typeof tag === 'string' || typeof tag === 'number';
+const isTopLevelElement = (elementName) =>
   ['header', 'content', 'footer'].includes(elementName);
 
 function updateContext(context, overrides) {
@@ -171,7 +172,7 @@ function renderPdf(tag) {
   const result = {};
   const isTopLevel = true;
 
-  children.forEach(child => {
+  children.forEach((child) => {
     const resolvedChild = resolve(child, context);
     result[resolvedChild.elementName] = resolveChildren(
       resolvedChild,

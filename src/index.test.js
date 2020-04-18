@@ -246,7 +246,7 @@ describe('#jsx-pdf', () => {
 
   describe('higher order components', () => {
     it('should allow higher order components', () => {
-      const Component = attributes => <text>{attributes.children}</text>;
+      const Component = (attributes) => <text>{attributes.children}</text>;
 
       expect(
         JsxPdf.renderPdf(
@@ -470,7 +470,7 @@ describe('#jsx-pdf', () => {
       });
     });
 
-    ['title', 'author', 'subject', 'keywords'].forEach(field => {
+    ['title', 'author', 'subject', 'keywords'].forEach((field) => {
       it(`should set ${field} in info`, () => {
         expect(
           JsxPdf.renderPdf(<document info={{ [field]: 'foo' }} />),

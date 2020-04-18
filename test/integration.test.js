@@ -2,13 +2,13 @@ import path from 'path';
 
 import PDFParser from 'pdf2json';
 
-const pages = json => json.formImage.Pages;
+const pages = (json) => json.formImage.Pages;
 
-const text = json =>
+const text = (json) =>
   pages(json)
-    .map(page =>
-      page.Texts.map(line =>
-        line.R.map(item => decodeURIComponent(item.T)).join(''),
+    .map((page) =>
+      page.Texts.map((line) =>
+        line.R.map((item) => decodeURIComponent(item.T)).join(''),
       ).join(''),
     )
     .join('');
@@ -22,10 +22,10 @@ describe('pdf', () => {
       const pdfParser = new PDFParser();
 
       const data = new Promise((resolve, reject) => {
-        pdfParser.on('pdfParser_dataError', errData =>
+        pdfParser.on('pdfParser_dataError', (errData) =>
           reject(errData.parserError),
         );
-        pdfParser.on('pdfParser_dataReady', pdfData => resolve(pdfData));
+        pdfParser.on('pdfParser_dataReady', (pdfData) => resolve(pdfData));
       });
 
       pdfParser.loadPDF(path.resolve(__dirname, '../example/example.pdf'));
