@@ -1,4 +1,5 @@
 import JsxPdf from '../../../dst';
+import PDFIcon from './pdf-icon';
 
 const baseMargin = 40;
 const headerHeight = 100;
@@ -45,6 +46,7 @@ export default ({ size, title }, context) => (
       sapien malesuada sed. Cras ac nisl felis. Donec laoreet mi eget eleifend
       pellentesque. Sed eget nisi eleifend, ullamcorper orci eget, eleifend
       felis. Donec gravida enim dapibus nibh sollicitudin euismod.
+      <PDFIcon width={150} alignment="center" margin={[0, 50, 0, 0]} />
     </content>
     <footer {...footerStyle}>
       {(page, count) =>

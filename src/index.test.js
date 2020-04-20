@@ -764,6 +764,70 @@ describe('#jsx-pdf', () => {
       });
     });
 
+    describe('svg', () => {
+      it('should be converted', () => {
+        expect(
+          JsxPdf.renderPdf(
+            <document>
+              <content>
+                <svg
+                  content={`
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <circle fill="red" cx="50" cy="50" r="50"/>
+                    </svg>
+                  `}
+                />
+              </content>
+            </document>,
+          ),
+        ).toEqual({
+          content: {
+            stack: [
+              {
+                svg: `
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <circle fill="red" cx="50" cy="50" r="50"/>
+                    </svg>
+                  `,
+              },
+            ],
+          },
+        });
+      });
+
+      it('should set passed attributes', () => {
+        expect(
+          JsxPdf.renderPdf(
+            <document>
+              <content>
+                <svg
+                  content={`
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <circle fill="red" cx="50" cy="50" r="50"/>
+                    </svg>
+                  `}
+                  margin={[0, 40, 10, 30]}
+                />
+              </content>
+            </document>,
+          ),
+        ).toEqual({
+          content: {
+            stack: [
+              {
+                svg: `
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <circle fill="red" cx="50" cy="50" r="50"/>
+                    </svg>
+                  `,
+                margin: [0, 40, 10, 30],
+              },
+            ],
+          },
+        });
+      });
+    });
+
     describe('stack', () => {
       it('should be converted', () => {
         expect(

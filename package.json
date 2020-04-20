@@ -1,6 +1,6 @@
 {
   "name": "jsx-pdf",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "main": "dst/index.js",
   "description": "Generate modular PDFs using JSX.",
   "files": [
@@ -64,6 +64,6 @@
   },
   "peerDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.0.0",
-    "pdfmake": "^0.1.36"
+    "pdfmake": "^0.1.59"
   }
 }
