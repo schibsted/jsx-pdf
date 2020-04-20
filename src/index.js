@@ -10,8 +10,9 @@ import last from 'lodash/last';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 
-const isTextElement = tag => typeof tag === 'string' || typeof tag === 'number';
-const isTopLevelElement = elementName =>
+const isTextElement = (tag) =>
+  typeof tag === 'string' || typeof tag === 'number';
+const isTopLevelElement = (elementName) =>
   ['header', 'content', 'footer'].includes(elementName);
 
 function updateContext(context, overrides) {
@@ -90,22 +91,24 @@ function resolveChildren(tag, parentContext, isTopLevel) {
     });
   }
 
-  const resolvedChildren = children.reduce((acc, child) => {
+  const resolvedChildren = children.reduce((accumulator, child) => {
     const resolvedChild = resolveChildren(child, createContext(parentContext));
 
-    if (isTextElement(last(acc)) && isTextElement(resolvedChild)) {
+    if (isTextElement(last(accumulator)) && isTextElement(resolvedChild)) {
       // If the previous child is a string
       // and the next child is a string,
       // join them together.
-      acc[acc.length - 1] = `${acc[acc.length - 1]}${resolvedChild}`;
+      accumulator[accumulator.length - 1] = `${
+        accumulator[accumulator.length - 1]
+      }${resolvedChild}`;
     } else if (!isNil(resolvedChild)) {
       // Otherwise push the child onto
       // the accumulator (as long as it's
       // not null or undefined).
-      acc.push(resolvedChild);
+      accumulator.push(resolvedChild);
     }
 
-    return acc;
+    return accumulator;
   }, []);
 
   /**
@@ -169,7 +172,7 @@ function renderPdf(tag) {
   const result = {};
   const isTopLevel = true;
 
-  children.forEach(child => {
+  children.forEach((child) => {
     const resolvedChild = resolve(child, context);
     result[resolvedChild.elementName] = resolveChildren(
       resolvedChild,

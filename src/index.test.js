@@ -199,9 +199,9 @@ describe('#jsx-pdf', () => {
           <content>
             Hello{null}
             {undefined}
-            {''}
+            {'' /* eslint-disable-line react/jsx-curly-brace-presence */}
             {0}
-            {NaN}
+            {Number.NaN}
             {false}!
           </content>
         </document>,
@@ -218,7 +218,7 @@ describe('#jsx-pdf', () => {
     const Undefined = () => {};
     const Empty = () => '';
     const Zero = () => 0;
-    const NAN = () => NaN;
+    const NAN = () => Number.NaN;
     const False = () => () => false;
 
     expect(
@@ -246,7 +246,7 @@ describe('#jsx-pdf', () => {
 
   describe('higher order components', () => {
     it('should allow higher order components', () => {
-      const Component = attributes => <text>{attributes.children}</text>;
+      const Component = (attributes) => <text>{attributes.children}</text>;
 
       expect(
         JsxPdf.renderPdf(
@@ -470,7 +470,7 @@ describe('#jsx-pdf', () => {
       });
     });
 
-    ['title', 'author', 'subject', 'keywords'].forEach(field => {
+    ['title', 'author', 'subject', 'keywords'].forEach((field) => {
       it(`should set ${field} in info`, () => {
         expect(
           JsxPdf.renderPdf(<document info={{ [field]: 'foo' }} />),

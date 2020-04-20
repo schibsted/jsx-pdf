@@ -78,7 +78,7 @@ import JsxPdf from 'jsx-pdf';
 
 const GroupGreeting = ({ names }) => (
   <stack>
-    {names.map(name => (
+    {names.map((name) => (
       <Greeting name={name} />
     ))}
   </stack>
