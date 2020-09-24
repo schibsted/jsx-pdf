@@ -1,4 +1,4 @@
 module.exports = {
   clearMocks: true,
-  testRegex: 'test\\/.*\\.test\\.js$',
+  testRegex: 'test(\\/|\\\\).*\\.test\\.js$',
 };

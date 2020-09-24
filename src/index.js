@@ -189,7 +189,10 @@ function renderPdf(tag) {
   };
 }
 
+const Fragment = (props) => createElement('stack', null, props.children);
+
 export default {
   createElement,
   renderPdf,
+  Fragment,
 };

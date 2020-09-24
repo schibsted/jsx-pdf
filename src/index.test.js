@@ -566,6 +566,57 @@ describe('#jsx-pdf', () => {
     });
   });
 
+  describe('Fragment', () => {
+    it('should convert Fragments into a stack', () => {
+      expect(
+        JsxPdf.renderPdf(
+          <document>
+            <content>
+              <>
+                <text>Hello</text>
+                <text>World</text>
+              </>
+            </content>
+          </document>,
+        ),
+      ).toEqual({
+        content: {
+          stack: [
+            {
+              stack: [{ text: 'Hello' }, { text: 'World' }],
+            },
+          ],
+        },
+      });
+    });
+
+    it('should convert Fragments into a stack when a Component returns a Fragment', () => {
+      const Component = () => (
+        <>
+          <text>Hello</text>
+          <text>World</text>
+        </>
+      );
+      expect(
+        JsxPdf.renderPdf(
+          <document>
+            <content>
+              <Component />
+            </content>
+          </document>,
+        ),
+      ).toEqual({
+        content: {
+          stack: [
+            {
+              stack: [{ text: 'Hello' }, { text: 'World' }],
+            },
+          ],
+        },
+      });
+    });
+  });
+
   describe('primitives', () => {
     describe('header', () => {
       it('should be converted', () => {

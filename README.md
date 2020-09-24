@@ -29,6 +29,8 @@ stream.end();
 
 ## Quick start
 
+### Javascript
+
 - `yarn add jsx-pdf @babel/plugin-transform-react-jsx`
 - Configure the part of your build that transpiles your JSX to use `JsxPdf.createElement` as the element factory.
   - For babel, add the configuration below to your `.babelrc`.
@@ -36,17 +38,24 @@ stream.end();
   "plugins": [
     [
       "@babel/plugin-transform-react-jsx",
-      { "pragma": "JsxPdf.createElement" }
+      { "pragma": "JsxPdf.createElement", "pragmaFrag": "JsxPdf.Fragment" }
     ]
   ]
   ```
-  - For TypeScript, add the configuration below to your `tsconfig.json`. Setting `jsx` to `react` configures TypeScript to handle JSX transpiling for you, and the `jsxFactory` option specifies the element factory to use.
-  ```json
-  "compilerOptions": {
-    "jsx": "react",
-    "jsxFactory": "JsxPdf.createElement",
-  },
-  ```
+
+### Typescript
+
+- `yarn add -D @types/jsx-pdf`
+- For TypeScript, add the configuration below to your `tsconfig.json`. Setting `jsx` to `react` configures TypeScript to handle JSX transpiling for you, and the `jsxFactory` option specifies the element factory to use. Setting `jsxFragmentFactory` allows you to use [JSX Fragments](https://reactjs.org/docs/fragments.html#short-syntax).
+
+```json
+"compilerOptions": {
+  "jsx": "react",
+  "jsxFactory": "JsxPdf.createElement",
+  "jsxFragmentFactory": "JsxPdf.Fragment",
+},
+```
+
 - Code away! See the examples below.
 
 You can also run our example script by running `yarn demo` and opening the generated pdf at `example/example.pdf`. Check the console logs for additional information.
