@@ -38,7 +38,7 @@ stream.end();
   "plugins": [
     [
       "@babel/plugin-transform-react-jsx",
-      { "pragma": "JsxPdf.createElement" }
+      { "pragma": "JsxPdf.createElement", "pragmaFrag": "JsxPdf.Fragment" }
     ]
   ]
   ```
