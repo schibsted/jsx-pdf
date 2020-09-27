@@ -879,6 +879,49 @@ describe('#jsx-pdf', () => {
       });
     });
 
+    describe('qr', () => {
+      it('should be converted', () => {
+        expect(
+          JsxPdf.renderPdf(
+            <document>
+              <content>
+                <qr content="my text" />
+              </content>
+            </document>,
+          ),
+        ).toEqual({
+          content: {
+            stack: [
+              {
+                qr: 'my text',
+              },
+            ],
+          },
+        });
+      });
+
+      it('should set passed attributes', () => {
+        expect(
+          JsxPdf.renderPdf(
+            <document>
+              <content>
+                <qr content="my text" foreground="#f9c7bf" />
+              </content>
+            </document>,
+          ),
+        ).toEqual({
+          content: {
+            stack: [
+              {
+                qr: 'my text',
+                foreground: '#f9c7bf',
+              },
+            ],
+          },
+        });
+      });
+    });
+
     describe('stack', () => {
       it('should be converted', () => {
         expect(

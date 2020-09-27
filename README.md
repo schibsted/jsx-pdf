@@ -463,6 +463,22 @@ const doc = (
 );
 ```
 
+### QR Codes
+
+The `qr` tag can be used to render QR codes. There are various options available as described in the [pdfmake docs](https://pdfmake.github.io/docs/0.1/document-definition-object/qr/).
+
+```jsx
+import JsxPdf from 'jsx-pdf';
+
+const doc = (
+  <document>
+    <content>
+      <qr content="My text" />
+    </content>
+  </document>
+);
+```
+
 ## API
 
 ### renderPdf
