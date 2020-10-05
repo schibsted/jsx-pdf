@@ -1,3 +1,10 @@
+# 2.3.0
+
+## New Features
+
+- JSX Fragments are now supported in place of `<stack>`. Babel configuration will need updating to use this as described in the README.md
+- QR codes are now supported `<qr content="https://example.org" />`
+
 # 2.2.0
 
 ## New Features
