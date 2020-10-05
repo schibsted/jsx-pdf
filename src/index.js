@@ -135,6 +135,8 @@ function resolveChildren(tag, parentContext, isTopLevel) {
       return { image: attributes.src, ...omit(attributes, 'src') };
     case 'svg':
       return { svg: attributes.content, ...omit(attributes, 'content') };
+    case 'qr':
+      return { qr: attributes.content, ...omit(attributes, 'content') };
     case 'table':
       return {
         table: {
