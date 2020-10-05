@@ -46,7 +46,14 @@ export default ({ size, title }, context) => (
       sapien malesuada sed. Cras ac nisl felis. Donec laoreet mi eget eleifend
       pellentesque. Sed eget nisi eleifend, ullamcorper orci eget, eleifend
       felis. Donec gravida enim dapibus nibh sollicitudin euismod.
-      <PDFIcon width={150} alignment="center" margin={[0, 50, 0, 0]} />
+      <columns columnGap={50}>
+        <column>
+          <PDFIcon width={150} alignment="center" />
+        </column>
+        <column>
+          <qr content="https://example.org" />
+        </column>
+      </columns>
     </content>
     <footer {...footerStyle}>
       {(page, count) =>
