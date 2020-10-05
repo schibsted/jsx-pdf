@@ -86,11 +86,11 @@ const doc = (
 import JsxPdf from 'jsx-pdf';
 
 const GroupGreeting = ({ names }) => (
-  <stack>
+  <>
     {names.map((name) => (
       <Greeting name={name} />
     ))}
-  </stack>
+  </>
 );
 
 const doc = (
@@ -110,10 +110,10 @@ import JsxPdf from 'jsx-pdf';
 const Signature = () => <text>JSX-PDF, Inc.</text>;
 
 const SignedGreeting = ({ name }) => (
-  <stack>
+  <>
     {name && <Greeting name={name} />}
     <Signature />
-  </stack>
+  </>
 );
 
 const doc = (
@@ -133,10 +133,10 @@ import JsxPdf from 'jsx-pdf';
 const AnonymousGreeting = () => <text>We don't know you.</text>;
 
 const SignedGreeting = ({ name }) => (
-  <stack>
+  <>
     {name ? <Greeting name={name} /> : <AnonymousGreeting />}
     <Signature />
-  </stack>
+  </>
 );
 
 const doc = (
@@ -163,10 +163,10 @@ const SignedGreeting = ({ name }) => {
   }
 
   return (
-    <stack>
+    <>
       {greeting}
       <Signature />
-    </stack>
+    </>
   );
 };
 
