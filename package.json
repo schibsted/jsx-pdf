@@ -39,11 +39,11 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-transform-react-jsx": "^7.9.4",
-    "@babel/preset-env": "^7.9.5",
-    "@babel/register": "^7.9.0",
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-transform-react-jsx": "^7.10.4",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/register": "^7.11.5",
     "coveralls": "^3.0.11",
     "eslint": "^6.8.0",
     "eslint-config-schibsted": "^7.0.0",
