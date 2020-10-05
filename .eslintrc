@@ -25,7 +25,9 @@
           "props": false
         }
       }
-    ]
+    ],
+    "unicorn/no-null": "off",
+    "unicorn/no-reduce": "off"
   },
   "settings": {
     "react": { "pragma": "JsxPdf" }
