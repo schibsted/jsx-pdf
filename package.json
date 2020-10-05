@@ -60,7 +60,7 @@
     "jest-watch-typeahead": "^0.6.1",
     "pdf2json": "^1.2.0",
     "pdfmake": "^0.1.65",
-    "prettier": "^2.0.4"
+    "prettier": "^2.1.2"
   },
   "peerDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.0.0",
