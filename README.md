@@ -441,7 +441,7 @@ const doc = (
 );
 ```
 
-### SVGs
+### SVGs
 
 The `svg` tag can be used to render SVG images. The `width`, `height` and `fill` attributes can be used to control the size of the image as described in the [pdfmake docs](https://pdfmake.github.io/docs/document-definition-object/svgs/).
 
