@@ -327,8 +327,8 @@ const doc = (
   <document>
     <content>
       <stack color="red">
-        <text>First red parahraph.</text>
-        <text>Second red parahraph.</text>
+        <text>First red paragraph.</text>
+        <text>Second red paragraph.</text>
       </stack>
       <text color="blue">Blue parahraph.</text>
     </content>
