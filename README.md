@@ -22,7 +22,7 @@ const stream = pdfMake.createPdfKitDocument(
 );
 
 // write the stream to a file; this could also be streamed to an HTTP connection, stdout etc
-stream.on('finish', () => console.log('PDF generated'));
+stream.on('end', () => console.log('PDF generated'));
 stream.pipe(fs.createWriteStream('~/Desktop/test.pdf'));
 stream.end();
 ```
@@ -495,20 +495,18 @@ Example `.babelrc` file:
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "targets": {
-          "node": "6"
+          "node": "current"
         }
       }
     ]
   ],
   "plugins": [
     [
-      "transform-react-jsx",
-      {
-        "pragma": "JsxPdf.createElement"
-      }
+      "@babel/plugin-transform-react-jsx",
+      { "pragma": "JsxPdf.createElement", "pragmaFrag": "JsxPdf.Fragment" }
     ]
   ]
 }

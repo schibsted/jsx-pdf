@@ -59,7 +59,7 @@
     "jest": "^26.5.0",
     "jest-watch-typeahead": "^0.6.1",
     "pdf2json": "^1.2.0",
-    "pdfmake": "^0.1.68",
+    "pdfmake": "0.2.4",
     "prettier": "^2.1.2"
   },
   "peerDependencies": {

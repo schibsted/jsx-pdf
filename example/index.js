@@ -32,7 +32,7 @@ try {
   );
 
   // write the stream to a file; this could also be streamed to an HTTP connection, stdout etc
-  stream.on('finish', () => console.log('PDF generated'));
+  stream.on('end', () => console.log('PDF generated'));
   stream.pipe(fs.createWriteStream(path.resolve(__dirname, 'example.pdf')));
   stream.end();
 } catch (err) {
