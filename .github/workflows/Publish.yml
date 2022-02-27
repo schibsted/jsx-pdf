@@ -1,0 +1,22 @@
+name: Publish
+
+on: [release]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build on Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          registry-url: 'https://registry.npmjs.org'
+          node-version: 16.x
+      - run: yarn --frozen-lockfile --ignore-scripts
+      - run: yarn build
+        name: Build
+        env:
+          CI: true
+      - run: yarn publish --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_SECRET }}
