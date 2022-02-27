@@ -33,7 +33,7 @@
     "demo": "node --require @babel/register example/index.js"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=12"
   },
   "dependencies": {
     "lodash": "^4.17.20"
