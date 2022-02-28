@@ -1,6 +1,6 @@
 {
   "name": "jsx-pdf",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "main": "dst/index.js",
   "description": "Generate modular PDFs using JSX.",
   "files": [

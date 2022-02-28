@@ -1,3 +1,9 @@
+# 2.3.1
+
+## Other changes
+
+- Updated dependencies
+
 # 2.3.0
 
 ## New Features
